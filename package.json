@@ -1,0 +1,21 @@
+{
+  "name": "request-network-api-client-php",
+  "version": "1.0.0",
+  "description": "Node tooling for Request Network PHP client (spec sync & parity checks)",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "example": "examples",
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "type": "commonjs",
+  "devDependencies": {
+    "@marcohefti/request-network-api-contracts": "^0.5.0"
+  }
+}

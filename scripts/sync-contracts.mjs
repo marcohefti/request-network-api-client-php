@@ -4,14 +4,19 @@ import fsp from 'node:fs/promises';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
+import { createRequire } from 'node:module';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PKG_DIR = path.resolve(__dirname, '..');
 const OUT_DIR = path.join(PKG_DIR, 'specs');
+const require = createRequire(import.meta.url);
 
 function resolveContractsDir() {
   // Prefer workspace path to avoid Node resolution ambiguity.
   const workspaceCandidates = [
+    // Current monorepo layout
+    path.resolve(PKG_DIR, '..', 'request-network-api-contracts'),
+    // Legacy name (kept for safety if the directory is renamed in older clones)
     path.resolve(PKG_DIR, '..', 'request-client-contracts'),
     path.resolve(PKG_DIR, '..', '..', 'request-client-contracts'),
   ];
@@ -22,7 +27,9 @@ function resolveContractsDir() {
 
   // Fallback to Node resolution if installed as a dependency.
   try {
-    const pkgPath = require.resolve('@marcohefti/request-network-api-contracts/package.json', { paths: [PKG_DIR] });
+    const pkgPath = require.resolve('@marcohefti/request-network-api-contracts/package.json', {
+      paths: [PKG_DIR],
+    });
     return path.dirname(pkgPath);
   } catch {
     return null;
