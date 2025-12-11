@@ -1,10 +1,7 @@
 # Request Network API Client (PHP)
 
-PHP client for the Request Network hosted REST API.
-
-This package mirrors the TypeScript `@marcohefti/request-network-api-client` so WooCommerce and other PHP
-runtimes can talk to Request without a Node bridge. It shares the same OpenAPI spec, webhook fixtures,
-error semantics, and validation behaviour as the TypeScript client.
+PHP client for the Request Network hosted REST API. It mirrors the TypeScript client’s
+surface so WooCommerce and other PHP runtimes can talk to Request without a Node bridge.
 
 ## Installation
 
@@ -14,252 +11,72 @@ Install via Composer:
 composer require marcohefti/request-network-api-client
 ```
 
-## Scope & Features
+## Quick start
 
-- PHP‑first `RequestClient` with domain facades for requests, payouts, payments, payer/compliance (v1+v2),
-  client IDs, currencies (v1+v2), and legacy pay.
-- Shared HTTP pipeline with retry, logging, and runtime validation driven by the synced OpenAPI spec.
-- Env‑based factory (`RequestClient::createFromEnv()`) that honours `REQUEST_API_URL` / `REQUEST_API_KEY`
-  / `REQUEST_CLIENT_ID` (with legacy `REQUEST_SDK_*` fallbacks).
-- Webhook utilities: signature verifier, typed event objects, parser, dispatcher, PSR‑15 middleware, and
-  testing helpers that mirror the TypeScript webhook module.
-- Testing harness: PHPUnit unit suites, PHPStan, PHPCS/PHPMD, and OpenAPI/webhook parity scripts wired
-  into the workspace validator.
-
-### When to use this client
-
-- Use this client when you are in a PHP runtime (WooCommerce, Laravel, Symfony, custom PSR‑15 stack) and
-  want to call the Request Network hosted REST API (v2) via API key or client ID.
-- It is **not** the Request protocol SDK and does not manage wallets or speak directly to Request Nodes.
-  Keep on‑chain/protocol logic in your dapp and call this client for hosted endpoints (requests, payouts,
-  payer/compliance, currencies, client IDs, payments).
-
-See the WooCommerce decision log entry dated 2025‑11‑06 for additional background and scope.
-
-## Documentation
-
-- Architecture overview: `docs/ARCHITECTURE.md`
-- Testing & validation guide: `docs/TESTING.md`
-- Publishing checklist: `docs/PUBLISHING.md`
-- Before/After examples: `docs/BEFORE-AFTER.md`
-- HTTP client details: `docs/HTTP-CLIENT.md`
-- Webhooks guide: `docs/WEBHOOKS.md`
-
-## Examples
-
-Minimal, runnable examples live under `examples/`:
-
-- `examples/quick-start.php` – creates a client from `REQUEST_API_KEY`, creates a sample request, and prints
-  the `requestId`.
-- `examples/webhook-parse.php` – simulates a signed webhook payload, verifies the signature, parses the event,
-  and prints a `payment.confirmed` summary.
-
-## Project Layout
-
-```
-.
-├── src/
-│   ├── Core/          # Config, HTTP pipeline, retry, exceptions
-│   ├── Domains/       # Facades mapped to Request API domains (to be populated)
-│   ├── Validation/    # Schema registry and parity helpers
-│   └── Webhooks/      # Signature utilities, events, dispatcher
-├── generated/         # OpenAPI DTOs and validation fragments (codegen output)
-├── scripts/           # Spec sync + parity guards
-├── specs/             # Synced OpenAPI + webhook fixtures
-└── tests/             # PHPUnit suites (Unit, Integration, Parity)
-```
-
-## Error handling
-
-- All transport and API failures bubble up as `RequestApiException`, which now exposes structured accessors (`detail()`, `errors()`, `context()`) plus a `toArray()` helper mirroring the TypeScript `toJSON()`.
-- `RequestApiErrorBuilder::buildRequestApiError()` mirrors the TypeScript error builder: it inspects JSON payloads, falls back to `HTTP_<status>` codes/messages, and captures `x-request-id`, `x-correlation-id`, and `retry-after` headers.
-- Consumers that need type guards can call `RequestApiErrorBuilder::isRequestApiError($value)` to detect either exception instances or serialized arrays returned by `toArray()`.
-
-## Validation
-
-- `Validation\SchemaRegistry` mirrors the TypeScript registry: schemas are keyed by `operationId`, kind (`request`, `response`, `error`, `webhook`), and optional `status`/variant.
-- `Validation\SchemaValidator` exposes `parseWithSchema()` and `parseWithRegistry()` helpers built on `opis/json-schema`. Results include structured `SchemaValidationException` objects when validation fails.
-- Override fragments live under `src/Validation/Overrides/` to patch API quirks (request status nullability, payment route fee coercion, payer compliance status enums). Overrides register automatically when the registry boots.
-- Runtime validation toggles flow through `RuntimeValidationConfig` (requests/responses/errors) so callers can opt out per-request or globally.
-
-## Spec sync & codegen
-
-- `composer update:spec` - copies OpenAPI + webhook fixtures from `/request-network-api-contracts` into `specs/`.
-- `composer codegen` - generates `generated/OpenApi/Operations.php` (operation metadata) and the validation schema manifest consumed by `SchemaRegistry`.
-- Generated assets live under `generated/`. Commit them alongside code so runtime validation works without extra steps.
-
-`RequestClient::create(array $options = [])` mirrors the TypeScript factory. Typical usage:
+Minimal example using the static factory:
 
 ```php
 use RequestSuite\RequestPhpClient\RequestClient;
 
 $client = RequestClient::create([
     'apiKey' => $_ENV['REQUEST_API_KEY'],
-    'clientId' => $_ENV['REQUEST_CLIENT_ID'],
+    'clientId' => $_ENV['REQUEST_CLIENT_ID'] ?? null,
     'origin' => 'woo-plugin',
 ]);
 
 $request = $client->requests()->create([
     'currency' => 'USD',
     'expectedAmount' => '1000',
-    'payer' => [...],
+    'payer' => ['email' => 'customer@example.com'],
 ]);
 
 $payments = $client->payments()->search(['requestId' => $request['requestId']]);
 ```
 
-Use `RequestClient::createFromEnv()` (or the namespaced helper `createRequestClientFromEnv()`) to pull
-credentials from environment variables (`REQUEST_API_KEY`, `REQUEST_CLIENT_ID`, `REQUEST_ORIGIN`, and
-legacy `REQUEST_SDK_*` fallbacks). All entry points live under the `RequestSuite\RequestPhpClient`
-namespace per PSR-4 conventions.
-- `$client->http()` exposes the low-level `Core\Http\HttpClient`, letting advanced integrations
-  register custom facades or interrogate interceptors directly.
-
-## Usage (Requests API, WIP)
+Or load configuration from environment variables:
 
 ```php
 use RequestSuite\RequestPhpClient\RequestClient;
-use function RequestSuite\RequestPhpClient\createRequestClient;
 
-$client = createRequestClient([
-    'apiKey' => 'rk_...',
-    'clientId' => 'merchant_123',
-]);
-// Or call RequestClient::create([...]) if you prefer the static factory.
-
-$requests = $client->requests();
-$response = $requests->create([
-    'currency' => 'eur',
-    'expectedAmount' => 10000,
-    'payer' => ['email' => 'customer@example.com'],
-]);
-
-// Legacy (v1) flows for older integrations
-$legacy = $client->requestsV1();
-$legacy->stopRecurrence('payment_ref_123');
-
-$payer = $client->payer();
-$compliance = $payer->createComplianceData([
-    'clientUserId' => 'merchant_user_123',
-    'email' => 'customer@example.com',
-    'firstName' => 'Jane',
-    'lastName' => 'Doe',
-    'beneficiaryType' => 'individual',
-    'addressLine1' => '1 Main St',
-    'city' => 'Paris',
-    'country' => 'FR',
-]);
-
-$statusSummary = \RequestSuite\RequestPhpClient\Domains\Payer\ComplianceStatusFormatter::summary([
-    'kycStatus' => $compliance['status']['kycStatus'] ?? null,
-    'agreementStatus' => $compliance['status']['agreementStatus'] ?? null,
-    'clientUserId' => $compliance['userId'] ?? null,
-]);
-
-$legacyPayer = $payer->legacy;
-$legacyPayer->getComplianceStatus('legacy_user_123');
-
-$clientIds = $client->clientIds();
-$newClient = $clientIds->create([
-    'name' => 'example-store',
-    'description' => 'WooCommerce shop',
-]);
-$clientIds->revoke($newClient['id']);
-
-$currencies = $client->currencies();
-$tokens = $currencies->list(['network' => 'sepolia']);
-$legacyRoutes = $currencies->legacy->getConversionRoutes('USD');
-
-$pay = $client->pay();
-$pay->payRequest([
-    'currency' => 'eur',
-    'expectedAmount' => 2500,
-    'paymentReference' => 'legacy_123',
-]);
-$pay->legacy->payRequest(['paymentReference' => 'legacy_456', 'expectedAmount' => 1000]);
-
-$payouts = $client->payouts();
-$payouts->create(['requestId' => 'req_123', 'amount' => 5000]);
-
-$payments = $client->payments();
-$payments->search(['wallet' => '0xabc', 'limit' => 20]);
+$client = RequestClient::createFromEnv();
+// Reads REQUEST_API_URL, REQUEST_API_KEY, REQUEST_CLIENT_ID (+ legacy REQUEST_SDK_* fallbacks)
 ```
 
-The pay facade mirrors the TypeScript `createPayApi` helper: `$client->pay()` proxies to the underlying
-legacy implementation and also exposes `$client->pay()->legacy` when an explicit v1 reference is needed.
+## What this client covers
 
-The payer facade mirrors the TypeScript `createPayerApi` surface: `$client->payer()` proxies to the v2 endpoints
-while exposing `$client->payer()->legacy` for explicit v1 routing. `ComplianceStatusFormatter::summary()` and
-`::summaryFromException()` help turn compliance responses or `RequestApiException` payloads into human-readable
-messages so admin screens can explain why KYC blocks certain actions. Likewise, `$client->clientIds()` mirrors the
-TypeScript `createClientIdsApi`, letting Woo provision, rotate, and revoke client identifiers directly, and
-`$client->currencies()` exposes the `/v2/currencies` + `/v2/.../conversion-routes` lifecycle with a `.legacy`
-facade for the `/v1` endpoints.
+- PHP‑first `RequestClient` with facades for requests, payouts, payments, payer/compliance (v1+v2),
+  client IDs, currencies (v1+v2), and legacy pay.
+- Shared HTTP pipeline with retry, logging, and runtime validation driven by the synced OpenAPI spec.
+- Webhook utilities: signature verifier, typed event objects, parser, dispatcher, PSR‑15 middleware, and
+  testing helpers that mirror the TypeScript webhook module.
+- Env‑based factory for backend and WooCommerce usage, with PSR‑4 autoloading under
+  `RequestSuite\RequestPhpClient`.
 
-## Webhook utilities
+For deeper details (HTTP client, domains, webhooks, error model), see:
 
-```php
-use RequestSuite\RequestPhpClient\Webhooks\Exceptions\RequestWebhookSignatureException;
-use RequestSuite\RequestPhpClient\Webhooks\WebhookSignatureVerifier;
+- Architecture: `docs/ARCHITECTURE.md`
+- Testing & validation: `docs/TESTING.md`
+- Publishing checklist: `docs/PUBLISHING.md`
+- HTTP client details: `docs/HTTP-CLIENT.md`
+- Webhooks guide: `docs/WEBHOOKS.md`
+- Examples: `examples/` (quick start + webhook parsing)
 
-try {
-    $result = WebhookSignatureVerifier::verifyFromRequest(
-        $psrRequest, // \Psr\Http\Message\ServerRequestInterface with the raw JSON body
-        ['rk_live_old', 'rk_live_new'], // support rolling secrets
-        [
-            'timestampHeader' => 'x-request-network-timestamp',
-            'toleranceMs' => 5 * 60 * 1000, // 5 minutes
-        ]
-    );
+## Compatibility
 
-    // $result->signature (lowercase hex), $result->matchedSecret, $result->timestamp, $result->headers
-} catch (RequestWebhookSignatureException $exception) {
-    if ($exception->reason === 'tolerance_exceeded') {
-        // Log drift / replay attempt
-    }
+- PHP: see the `php` constraint in `composer.json` (currently >= 8.1).
+- Frameworks: designed for PSR‑15 stacks (e.g., WooCommerce, Laravel/Symfony via adapters).
 
-    throw $exception; // surface as 401 (statusCode) to the framework
-}
-```
+## Development
 
-`WebhookSignatureVerifier::verify()` also accepts raw strings + associative header arrays for non-PSR
-contexts. `WebhookHeaders` mirrors the TypeScript helper by normalising headers (first non-empty
-value wins, case-insensitive keys) so consumers can re-use it inside custom middleware. The exception
-shares the same error code (`ERR_REQUEST_WEBHOOK_SIGNATURE_VERIFICATION_FAILED`) plus structured
-fields (`headerName`, `signature`, `timestamp`, `reason`) that match the TS error object for parity.
+Common commands:
 
-After verification, `WebhookParser` deserialises the body, validates it against the webhook schemas,
-and hydrates typed event objects:
+- `composer test` – PHPUnit suites.
+- `composer stan` – PHPStan analysis.
+- `composer cs` / `composer lint` – coding standards (if configured).
+- `composer update:spec` – sync OpenAPI + webhook fixtures from the contracts package.
 
-```php
-use RequestSuite\RequestPhpClient\Webhooks\WebhookParser;
-use RequestSuite\RequestPhpClient\Webhooks\Events\PaymentConfirmedEvent;
-
-$parser = new WebhookParser();
-$parsed = $parser->parse([
-    'rawBody' => (string) $psrRequest->getBody(),
-    'headers' => $psrRequest,
-    'secret' => ['rk_live_old', 'rk_live_new'],
-    'timestampHeader' => 'x-request-network-timestamp',
-    'toleranceMs' => 5 * 60 * 1000,
-]);
-
-if ($parsed->event() instanceof PaymentConfirmedEvent) {
-    $data = $parsed->event()->data();
-    $requestId = $data->string('requestId', 'requestID');
-    $amount = $data->string('amount');
-}
-```
-
-During local development you can pass `skipSignatureVerification => true` and associative headers
-instead of PSR-7 requests. The parser returns a `ParsedWebhookEvent` with the typed payload object,
-raw JSON, normalized headers, matched secret, signature, and timestamp metadata so downstream code
-can stay strongly typed.
-
-Payment detail updates automatically hydrate the status-specific classes so downstream handlers can
-react with simple `instanceof` checks:
-
-```php
+See `docs/TESTING.md` and `docs/ARCHITECTURE.md` for the full testing strategy, spec sync flow,
+and domain layout.
 use RequestSuite\RequestPhpClient\Webhooks\Events\PaymentDetailApprovedEvent;
 use RequestSuite\RequestPhpClient\Webhooks\Events\PaymentDetailFailedEvent;
 
