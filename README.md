@@ -1,10 +1,18 @@
-# @marcohefti/request-network-api-client
+# Request Network API Client (PHP)
 
-> PHP client for the Request Network hosted REST API.
+PHP client for the Request Network hosted REST API.
 
 This package mirrors the TypeScript `@marcohefti/request-network-api-client` so WooCommerce and other PHP
 runtimes can talk to Request without a Node bridge. It shares the same OpenAPI spec, webhook fixtures,
 error semantics, and validation behaviour as the TypeScript client.
+
+## Installation
+
+Install via Composer:
+
+```bash
+composer require marcohefti/request-network-api-client
+```
 
 ## Scope & Features
 
@@ -79,12 +87,6 @@ Minimal, runnable examples live under `examples/`:
 - `composer update:spec` - copies OpenAPI + webhook fixtures from `/request-network-api-contracts` into `specs/`.
 - `composer codegen` - generates `generated/OpenApi/Operations.php` (operation metadata) and the validation schema manifest consumed by `SchemaRegistry`.
 - Generated assets live under `generated/`. Commit them alongside code so runtime validation works without extra steps.
-
-## Installation
-
-```sh
-composer require marcohefti/request-network-api-client
-```
 
 `RequestClient::create(array $options = [])` mirrors the TypeScript factory. Typical usage:
 
