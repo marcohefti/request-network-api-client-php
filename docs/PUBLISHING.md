@@ -1,4 +1,4 @@
-# Publishing `request-suite/request-php-client`
+# Publishing `marcohefti/request-network-api-client`
 
 This package will ship on Packagist once the MVP surface (requests, payouts,
 payments, payer compliance, currencies, webhooks) and validation story are in
@@ -9,10 +9,10 @@ place. Use this checklist when preparing a release.
       configuration (env vars/options), and usage examples for HTTP facades + webhook helpers.
 - [ ] Confirm `docs/ARCHITECTURE.md` reflects the latest transport/domain
       design and regeneration commands.
-- [ ] Regenerate DTOs/webhook schemas from `@request-suite/request-client-contracts/specs/openapi/request-network-openapi.json`
-      (and `@request-suite/request-client-contracts/fixtures/webhooks/**`) using the local codegen scripts, then commit
+- [ ] Regenerate DTOs/webhook schemas from `@request/request-network-api-contracts/specs/openapi/request-network-openapi.json`
+      (and `@request/request-network-api-contracts/fixtures/webhooks/**`) using the local codegen scripts, then commit
       the outputs.
-- [ ] Ensure `@request-suite/request-client-contracts` is available (workspace path `packages/request-client-contracts` or an npm dependency pinned to the release tag) so `composer update:spec` and parity guards can sync assets without manual intervention.
+- [ ] Ensure `@request/request-network-api-contracts` is available (workspace path `packages/request-client-contracts` or an npm dependency pinned to the release tag) so `composer update:spec` and parity guards can sync assets without manual intervention.
 - [ ] Run `composer test` and `composer stan` inside the package, then
       `pnpm validate --full` from the repo root (capture logs per workspace
       protocol).
@@ -35,7 +35,7 @@ place. Use this checklist when preparing a release.
       `packages/request-php-client` into a standalone repository.
 - [ ] Configure CI in the public repo to run composer install, PHPUnit,
       PHPStan, and any codegen/validation scripts.
-- [ ] Add `@request-suite/request-client-contracts` as a Node dependency (git tag or registry package) so `composer update:spec` continues working outside the monorepo.
+- [ ] Add `@request/request-network-api-contracts` as a Node dependency (git tag or registry package) so `composer update:spec` continues working outside the monorepo.
 - [ ] Add Packagist hook (or GitHub Actions workflow) to publish on tagged
       releases.
 - [ ] Mirror docs (README, architecture) in the public repo.

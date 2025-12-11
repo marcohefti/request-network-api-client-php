@@ -22,7 +22,7 @@ function resolveContractsDir() {
 
   // Fallback to Node resolution if installed as a dependency.
   try {
-    const pkgPath = require.resolve('@request-suite/request-client-contracts/package.json', { paths: [PKG_DIR] });
+    const pkgPath = require.resolve('@request/request-network-api-contracts/package.json', { paths: [PKG_DIR] });
     return path.dirname(pkgPath);
   } catch {
     return null;
@@ -52,7 +52,7 @@ function sha256FileSync(filePath) {
 async function main() {
   const contractsDir = resolveContractsDir();
   if (!contractsDir) {
-    console.error('❌ Could not resolve @request-suite/request-client-contracts');
+    console.error('❌ Could not resolve @request/request-network-api-contracts');
     process.exit(1);
   }
 

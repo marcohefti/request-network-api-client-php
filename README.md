@@ -1,8 +1,8 @@
-# @request-suite/request-php-client
+# @marcohefti/request-network-api-client
 
 > PHP client for the Request Network hosted REST API.
 
-This package mirrors the TypeScript `@request-suite/request-api-client` so WooCommerce and other PHP
+This package mirrors the TypeScript `@request/request-network-api-client` so WooCommerce and other PHP
 runtimes can talk to Request without a Node bridge. It shares the same OpenAPI spec, webhook fixtures,
 error semantics, and validation behaviour as the TypeScript client.
 
@@ -83,7 +83,7 @@ packages/request-php-client/
 ## Installation
 
 ```sh
-composer require request-suite/request-php-client
+composer require marcohefti/request-network-api-client
 ```
 
 `RequestClient::create(array $options = [])` mirrors the TypeScript factory. Typical usage:
