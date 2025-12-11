@@ -13,9 +13,9 @@ place. Use this checklist when preparing a release.
       (and `@marcohefti/request-network-api-contracts/fixtures/webhooks/**`) using the local codegen scripts, then commit
       the outputs.
 - [x] Ensure `@marcohefti/request-network-api-contracts` is available (workspace path `/packages/request-network-api-contracts` or an npm dependency pinned to the release tag) so `composer update:spec` and parity guards can sync assets without manual intervention.
-- [x] Run `composer test` and `composer stan` inside the package, then
-      `pnpm validate --full` from the repo root (capture logs per workspace
-      protocol).
+- [x] Run `composer test` and `composer stan` inside the package. Optionally follow with
+      `pnpm validate:scoped -- --filter "./packages/request-network-api-client-php"` or a full
+      `pnpm validate --full` from the repo root (capture logs per workspace protocol) before handoff.
 
 ## Release Metadata
 - Update `composer.json`:
@@ -27,8 +27,14 @@ place. Use this checklist when preparing a release.
 - [x] Add `.gitattributes` entries to exclude tests/docs from distro archives
       if required (`export-ignore`).
 - [x] Update `docs/TESTING.md` / `docs/ARCHITECTURE.md` with the final publishing workflow so the public repo stays in sync.
-- [ ] Tag strategy documented (e.g., `v0.x.y` for pre-release, semantic version
+- [x] Tag strategy documented (e.g., `v0.x.y` for pre-release, semantic version
       once GA).
+
+Tagging strategy for this package:
+
+- Use `v0.x.y` tags for the 0.x line while the surface is still evolving.
+- Treat `0.x` as feature-bearing: minor (`0.minor`) can contain breaking changes, patch (`0.x.patch`) is reserved for backward-compatible fixes.
+- Reserve `1.0.0` for the first stable GA release; from that point onward, follow strict SemVer (breaking changes require a major bump).
 
 ## Repository Split (post-monorepo)
 - [ ] Use `git subtree split` or `git filter-repo` to extract
