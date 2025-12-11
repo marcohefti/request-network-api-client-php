@@ -21,7 +21,7 @@ The PHP package mirrors the TypeScript SDK’s guard rails so every release ship
 | Coverage | PHPUnit TextUI (`composer coverage`) | Available | Produces a line coverage summary. Thresholds will gate releases (≥80 % target). |
 | OpenAPI parity | `scripts/parity-openapi.php` (`composer parity:openapi`) | Available | Diffs implemented `operationId`s against the synced OpenAPI spec. |
 | Webhook parity | `scripts/parity-webhooks.php` (`composer parity:webhooks`) | Available | Diffs webhook event classes against the shared fixtures. |
-| Contracts sync | `scripts/sync-contracts.mjs` (`composer update:spec`) | Available | Copies OpenAPI + webhook assets from `@request/request-network-api-contracts`. |
+| Contracts sync | `scripts/sync-contracts.mjs` (`composer update:spec`) | Available | Copies OpenAPI + webhook assets from `@marcohefti/request-network-api-contracts`. |
 
 ## Project Layout
 
@@ -30,7 +30,7 @@ The PHP package mirrors the TypeScript SDK’s guard rails so every release ship
 | `src/**` | Production code organised by domain (`Config/`, `Http/`, `Retry/`, etc.). | PSR-4 root: `RequestSuite\RequestPhpClient`. |
 | `tests/Unit/**` | PHPUnit unit suites. | Mirror TS folder names (e.g. `Http`, `Retry`) as new suites land. |
 | `tests/Integration/**` | Placeholder for live suites. | Gate with PHPUnit groups to avoid accidental CI runs without credentials. |
-| `tests/fixtures/**` | Planned PHP fixtures that wrap the shared JSON assets. | Prefer re-exporting `@request/request-network-api-contracts` fixtures. |
+| `tests/fixtures/**` | Planned PHP fixtures that wrap the shared JSON assets. | Prefer re-exporting `@marcohefti/request-network-api-contracts` fixtures. |
 | `specs/**` | Synced OpenAPI & webhook specs + fixtures. | Populated by `composer update:spec`. Committed to VCS. |
 | `scripts/**` | Node + PHP utilities (contracts sync, parity guards). | Keep scripts idempotent so CI re-runs stay green. |
 
@@ -48,7 +48,7 @@ The PHP package mirrors the TypeScript SDK’s guard rails so every release ship
    ```
 5. Install dependencies:
    ```sh
-   pnpm install          # workspace (installs @request/request-network-api-contracts)
+   pnpm install          # workspace (installs @marcohefti/request-network-api-contracts)
    composer install      # from packages/request-php-client
    ```
 
@@ -72,7 +72,7 @@ Set `VALIDATE_SINCE=origin/main` when running scoped validation loops so the orc
 
 ## Contracts & Parity Guardrails
 
-- `composer update:spec` copies OpenAPI schemas (`specs/openapi/**`) and webhook assets (`specs/webhooks/**`, `specs/fixtures/webhooks/**`) from `@request/request-network-api-contracts`. The script writes `specs/meta.json` with SHA-256 fingerprints so we can detect drift in CI.
+- `composer update:spec` copies OpenAPI schemas (`specs/openapi/**`) and webhook assets (`specs/webhooks/**`, `specs/fixtures/webhooks/**`) from `@marcohefti/request-network-api-contracts`. The script writes `specs/meta.json` with SHA-256 fingerprints so we can detect drift in CI.
 - `composer parity:openapi` reads every `operationId` in the synced OpenAPI spec and compares it to constants defined in `src/Validation/Operations.php`. Missing IDs fail the build. Extra IDs mean PHP is ahead of the spec.
 - `composer parity:webhooks` converts fixture filenames (kebab-case) into PascalCase event names and compares them to classes under `src/Webhooks/Events`. Missing/extra events fail the run. `UnknownEvent` is ignored to preserve a sane fallback.
 - Keep parity guards green before merging. If you intentionally add an allowlist, document it in this file and the backlog task so future work can remove it.

@@ -2,7 +2,7 @@
 
 > PHP client for the Request Network hosted REST API.
 
-This package mirrors the TypeScript `@request/request-network-api-client` so WooCommerce and other PHP
+This package mirrors the TypeScript `@marcohefti/request-network-api-client` so WooCommerce and other PHP
 runtimes can talk to Request without a Node bridge. It shares the same OpenAPI spec, webhook fixtures,
 error semantics, and validation behaviour as the TypeScript client.
 

@@ -1,7 +1,7 @@
 # Request PHP Client Architecture
 
 ## Goals
-- Mirror the ergonomics and reliability of the TypeScript `@request/request-network-api-client` in a PHP-first package that WooCommerce (and other PHP runtimes) can consume without a Node bridge.
+- Mirror the ergonomics and reliability of the TypeScript `@marcohefti/request-network-api-client` in a PHP-first package that WooCommerce (and other PHP runtimes) can consume without a Node bridge.
 - Lean on shared assets (OpenAPI spec, webhook fixtures) so TypeScript and PHP SDKs stay aligned as the Request REST API evolves.
 - Follow modern PHP standards: PSR-4 autoloading, PSR-18-friendly transport adapters, and pluggable retry/logging hooks.
 
@@ -148,7 +148,7 @@ fixtures already committed to the TypeScript suite.
 - Operation coverage: each facade method will be associated with a canonical
   OpenAPI `operationId`. We will consolidate these IDs in a small registry under
   `src/Validation/Operations.php` so a parity script can compare implemented
-  operations against `@request/request-network-api-contracts/specs/openapi/request-network-openapi.json`.
+  operations against `@marcohefti/request-network-api-contracts/specs/openapi/request-network-openapi.json`.
 - Webhook coverage: event classes under `src/Webhooks/Events` follow a
   deterministic naming scheme based on fixture filenames (e.g.,
   `payment-confirmed.json` -> `PaymentConfirmedEvent`). A parity script will
