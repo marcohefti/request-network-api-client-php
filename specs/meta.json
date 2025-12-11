@@ -1,0 +1,21 @@
+{
+  "generatedAt": "2025-12-10T06:36:27.759Z",
+  "files": {
+    "openapi/request-network-openapi.json": "d209d8ddd421c72c4097198215e9595ee79daae2d73fb8bc786791e29b351d5e",
+    "openapi/request-network-openapi.meta.json": "081661b091328bdf3c9641d567b8437b00d73a88cc5a400330c236e437066c87",
+    "webhooks/request-network-webhooks.json": "9438ad001651a8459a202d37e873516e05ffe6aeb29efead68bb58b948a5c494",
+    "fixtures/webhooks/compliance-approved.json": "2a4a0d4acd7bb568c291aea43f669aecc717a23fd39b6c49e5a8934bfc1ef36c",
+    "fixtures/webhooks/compliance-pending.json": "194c15cd4f4f67cf70d3f3a6ccb5eacc767bdfc43fd88f1d534f102f4568ca1e",
+    "fixtures/webhooks/compliance-rejected.json": "4cd49d1936917a88416512b42b4a2a2d4b47cbd470c3490a261de94dffc3ccc3",
+    "fixtures/webhooks/payment-confirmed.json": "d1f87069bdf35f5b6f0533c1835c38b91fbbae612f6b7f726b5a59158c25d4aa",
+    "fixtures/webhooks/payment-detail-approved.json": "f78024e53ece873e3960b751e7fee5dfd40f251a915c6a32f9024ccdeb50044c",
+    "fixtures/webhooks/payment-detail-failed.json": "f43959587bf4177e761bb1fd7a14977de4fe0b21400a0608ad1fa2f3fa0cf05d",
+    "fixtures/webhooks/payment-detail-pending.json": "4a1c66026262f2ba87b2f043e88780a51d6942c36756e5dcbef779dd7b36d075",
+    "fixtures/webhooks/payment-detail-verified.json": "dae53779a1508807c993a98ae70b77a039720be0039c66ef34bc88be2765fea0",
+    "fixtures/webhooks/payment-failed.json": "7ad4f91d95bce767f5924d1fe07937c436bc0642220dbf32c3d4ab4b80542e0e",
+    "fixtures/webhooks/payment-partial.json": "af6d73489e46655f7c5bbe3f646eefc9fd28096249cb4b5b1b1aba099c255ab9",
+    "fixtures/webhooks/payment-processing.json": "1c636ff7730a8b34629f8c4b7a7578154bf9d1f053240baf4318fc6de683980d",
+    "fixtures/webhooks/payment-refunded.json": "978aa8fba5d932bc6e80a1c54050033210f180f1ef9b1c875959d48b5f2e241a",
+    "fixtures/webhooks/request-recurring.json": "6ceb5f8d185313a9e580d137395d8c8ae11094675c3ea7cba056dd140a210e39"
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "name": "marcohefti/request-network-api-client",
+  "description": "Request Network REST API client for PHP.",
+  "type": "library",
+  "license": "MIT",
+  "homepage": "https://github.com/marcohefti/request-network-api-client-php",
+  "authors": [
+    {
+      "name": "Marco Hefti",
+      "homepage": "https://github.com/marcohefti"
+    }
+  ],
+  "require": {
+    "php": "^8.2",
+    "ext-json": "*",
+    "ext-hash": "*",
+    "ext-mbstring": "*",
+    "opis/json-schema": "^2.6",
+    "psr/http-client": "^1.0",
+    "psr/http-factory": "^1.0",
+    "psr/http-message": "^1.1",
+    "psr/http-server-handler": "^1.0",
+    "psr/http-server-middleware": "^1.0",
+    "psr/log": "^1.1 || ^2.0 || ^3.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^11.2",
+    "phpstan/phpstan": "^1.11",
+    "phpstan/phpstan-strict-rules": "^1.6",
+    "squizlabs/php_codesniffer": "^3.10",
+    "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+    "slevomat/coding-standard": "^8.14",
+    "phpmd/phpmd": "^2.15",
+    "friendsofphp/php-cs-fixer": "^3.66",
+    "nyholm/psr7": "^1.8"
+  },
+  "autoload": {
+    "psr-4": {
+      "RequestSuite\\RequestPhpClient\\": "src/",
+      "RequestSuite\\RequestPhpClient\\Generated\\": "generated/"
+    },
+    "files": [
+      "src/index.php"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "RequestSuite\\RequestPhpClient\\Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "test": "@php vendor/bin/phpunit --configuration phpunit.xml.dist",
+    "stan": "@php vendor/bin/phpstan analyse -c phpstan.neon.dist",
+    "coverage": "@php -d xdebug.mode=coverage vendor/bin/phpunit --configuration phpunit.coverage.xml.dist --colors=never",
+    "update:spec": "node ./scripts/sync-contracts.mjs",
+    "codegen": "node ./scripts/generate-openapi.mjs",
+    "parity:openapi": "@php scripts/parity-openapi.php",
+    "parity:webhooks": "@php scripts/parity-webhooks.php",
+    "cs": "@php vendor/bin/phpcs --standard=phpcs.xml.dist",
+    "cs:fix": "@php vendor/bin/phpcbf --standard=phpcs.xml.dist || true",
+    "md": "@php -d error_reporting=E_ALL\\&~E_DEPRECATED\\&~E_USER_DEPRECATED vendor/bin/phpmd src text phpmd.xml --exclude specs,vendor,generated,tests"
+  },
+  "suggest": {
+    "ext-openssl": "Required for some cryptographic operations (webhook verification)",
+    "ext-curl": "Recommended when using the built-in curl adapter",
+    "guzzlehttp/guzzle": "PSR-18 capable client for integration testing and production"
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}

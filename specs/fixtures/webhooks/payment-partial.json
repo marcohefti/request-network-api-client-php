@@ -1,0 +1,11 @@
+{
+  "event": "payment.partial",
+  "requestId": "req_partial1234567890",
+  "paymentReference": "0xpartial1234567890abcdef1234567890abcdef1234",
+  "amount": "50.0",
+  "totalAmountPaid": "50.0",
+  "expectedAmount": "100.0",
+  "timestamp": "2025-11-04T05:19:59.380Z",
+  "paymentProcessor": "request-network",
+  "fees": []
+}

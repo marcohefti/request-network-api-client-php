@@ -1,0 +1,7 @@
+{
+  "event": "payment_detail.updated",
+  "requestId": "req_detail123",
+  "paymentAccountId": "acct_approved_123",
+  "status": "approved",
+  "timestamp": "2025-08-28T19:25:45.995Z"
+}

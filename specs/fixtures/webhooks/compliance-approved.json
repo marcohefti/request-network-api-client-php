@@ -1,0 +1,9 @@
+{
+  "event": "compliance.updated",
+  "requestId": "req_compliance123",
+  "clientUserId": "user-123",
+  "kycStatus": "approved",
+  "agreementStatus": "signed",
+  "isCompliant": true,
+  "timestamp": "2025-08-28T22:25:45.995Z"
+}

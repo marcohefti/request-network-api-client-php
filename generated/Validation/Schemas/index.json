@@ -1,0 +1,538 @@
+{
+  "generatedAt": "2025-12-07T18:30:18.314Z",
+  "specPath": "specs/openapi/request-network-openapi.json",
+  "entries": [
+    {
+      "key": {
+        "operationId": "ClientIdV2Controller_create_v2",
+        "kind": "request",
+        "variant": "application/json"
+      },
+      "pointer": "/paths/~1v2~1client-ids/post/requestBody/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "ClientIdV2Controller_create_v2",
+        "kind": "response",
+        "variant": "application/json",
+        "status": 201
+      },
+      "pointer": "/paths/~1v2~1client-ids/post/responses/201/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "ClientIdV2Controller_findAll_v2",
+        "kind": "response",
+        "variant": "application/json",
+        "status": 200
+      },
+      "pointer": "/paths/~1v2~1client-ids/get/responses/200/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "ClientIdV2Controller_findOne_v2",
+        "kind": "response",
+        "variant": "application/json",
+        "status": 200
+      },
+      "pointer": "/paths/~1v2~1client-ids~1{id}/get/responses/200/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "ClientIdV2Controller_update_v2",
+        "kind": "request",
+        "variant": "application/json"
+      },
+      "pointer": "/paths/~1v2~1client-ids~1{id}/put/requestBody/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "ClientIdV2Controller_update_v2",
+        "kind": "response",
+        "variant": "application/json",
+        "status": 200
+      },
+      "pointer": "/paths/~1v2~1client-ids~1{id}/put/responses/200/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "PayerV1Controller_createPaymentDetails_v1",
+        "kind": "error",
+        "variant": "application/json",
+        "status": 400
+      },
+      "pointer": "/paths/~1v1~1payer~1{clientUserId}~1payment-details/post/responses/400/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "PayerV1Controller_createPaymentDetails_v1",
+        "kind": "error",
+        "variant": "application/json",
+        "status": 404
+      },
+      "pointer": "/paths/~1v1~1payer~1{clientUserId}~1payment-details/post/responses/404/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "PayerV1Controller_createPaymentDetails_v1",
+        "kind": "request",
+        "variant": "application/json"
+      },
+      "pointer": "/paths/~1v1~1payer~1{clientUserId}~1payment-details/post/requestBody/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "PayerV1Controller_createPaymentDetails_v1",
+        "kind": "response",
+        "variant": "application/json",
+        "status": 201
+      },
+      "pointer": "/paths/~1v1~1payer~1{clientUserId}~1payment-details/post/responses/201/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "PayerV1Controller_getComplianceData_v1",
+        "kind": "error",
+        "variant": "application/json",
+        "status": 400
+      },
+      "pointer": "/paths/~1v1~1payer/post/responses/400/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "PayerV1Controller_getComplianceData_v1",
+        "kind": "error",
+        "variant": "application/json",
+        "status": 404
+      },
+      "pointer": "/paths/~1v1~1payer/post/responses/404/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "PayerV1Controller_getComplianceData_v1",
+        "kind": "request",
+        "variant": "application/json"
+      },
+      "pointer": "/paths/~1v1~1payer/post/requestBody/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "PayerV1Controller_getComplianceData_v1",
+        "kind": "response",
+        "variant": "application/json",
+        "status": 200
+      },
+      "pointer": "/paths/~1v1~1payer/post/responses/200/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "PayerV1Controller_getComplianceStatus_v1",
+        "kind": "error",
+        "variant": "application/json",
+        "status": 404
+      },
+      "pointer": "/paths/~1v1~1payer~1{clientUserId}/get/responses/404/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "PayerV1Controller_getComplianceStatus_v1",
+        "kind": "response",
+        "variant": "application/json",
+        "status": 200
+      },
+      "pointer": "/paths/~1v1~1payer~1{clientUserId}/get/responses/200/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "PayerV1Controller_getPaymentDetails_v1",
+        "kind": "error",
+        "variant": "application/json",
+        "status": 404
+      },
+      "pointer": "/paths/~1v1~1payer~1{clientUserId}~1payment-details/get/responses/404/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "PayerV1Controller_getPaymentDetails_v1",
+        "kind": "response",
+        "variant": "application/json",
+        "status": 200
+      },
+      "pointer": "/paths/~1v1~1payer~1{clientUserId}~1payment-details/get/responses/200/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "PayerV1Controller_updateComplianceStatus_v1",
+        "kind": "error",
+        "variant": "application/json",
+        "status": 400
+      },
+      "pointer": "/paths/~1v1~1payer~1{clientUserId}/patch/responses/400/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "PayerV1Controller_updateComplianceStatus_v1",
+        "kind": "error",
+        "variant": "application/json",
+        "status": 404
+      },
+      "pointer": "/paths/~1v1~1payer~1{clientUserId}/patch/responses/404/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "PayerV1Controller_updateComplianceStatus_v1",
+        "kind": "request",
+        "variant": "application/json"
+      },
+      "pointer": "/paths/~1v1~1payer~1{clientUserId}/patch/requestBody/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "PayerV1Controller_updateComplianceStatus_v1",
+        "kind": "response",
+        "variant": "application/json",
+        "status": 200
+      },
+      "pointer": "/paths/~1v1~1payer~1{clientUserId}/patch/responses/200/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "PayerV2Controller_createPaymentDetails_v2",
+        "kind": "error",
+        "variant": "application/json",
+        "status": 400
+      },
+      "pointer": "/paths/~1v2~1payer~1{clientUserId}~1payment-details/post/responses/400/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "PayerV2Controller_createPaymentDetails_v2",
+        "kind": "error",
+        "variant": "application/json",
+        "status": 404
+      },
+      "pointer": "/paths/~1v2~1payer~1{clientUserId}~1payment-details/post/responses/404/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "PayerV2Controller_createPaymentDetails_v2",
+        "kind": "request",
+        "variant": "application/json"
+      },
+      "pointer": "/paths/~1v2~1payer~1{clientUserId}~1payment-details/post/requestBody/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "PayerV2Controller_createPaymentDetails_v2",
+        "kind": "response",
+        "variant": "application/json",
+        "status": 201
+      },
+      "pointer": "/paths/~1v2~1payer~1{clientUserId}~1payment-details/post/responses/201/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "PayerV2Controller_getComplianceData_v2",
+        "kind": "error",
+        "variant": "application/json",
+        "status": 400
+      },
+      "pointer": "/paths/~1v2~1payer/post/responses/400/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "PayerV2Controller_getComplianceData_v2",
+        "kind": "error",
+        "variant": "application/json",
+        "status": 404
+      },
+      "pointer": "/paths/~1v2~1payer/post/responses/404/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "PayerV2Controller_getComplianceData_v2",
+        "kind": "request",
+        "variant": "application/json"
+      },
+      "pointer": "/paths/~1v2~1payer/post/requestBody/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "PayerV2Controller_getComplianceData_v2",
+        "kind": "response",
+        "variant": "application/json",
+        "status": 200
+      },
+      "pointer": "/paths/~1v2~1payer/post/responses/200/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "PayerV2Controller_getComplianceStatus_v2",
+        "kind": "error",
+        "variant": "application/json",
+        "status": 404
+      },
+      "pointer": "/paths/~1v2~1payer~1{clientUserId}/get/responses/404/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "PayerV2Controller_getComplianceStatus_v2",
+        "kind": "response",
+        "variant": "application/json",
+        "status": 200
+      },
+      "pointer": "/paths/~1v2~1payer~1{clientUserId}/get/responses/200/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "PayerV2Controller_getPaymentDetails_v2",
+        "kind": "error",
+        "variant": "application/json",
+        "status": 404
+      },
+      "pointer": "/paths/~1v2~1payer~1{clientUserId}~1payment-details/get/responses/404/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "PayerV2Controller_getPaymentDetails_v2",
+        "kind": "response",
+        "variant": "application/json",
+        "status": 200
+      },
+      "pointer": "/paths/~1v2~1payer~1{clientUserId}~1payment-details/get/responses/200/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "PayerV2Controller_updateComplianceStatus_v2",
+        "kind": "error",
+        "variant": "application/json",
+        "status": 400
+      },
+      "pointer": "/paths/~1v2~1payer~1{clientUserId}/patch/responses/400/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "PayerV2Controller_updateComplianceStatus_v2",
+        "kind": "error",
+        "variant": "application/json",
+        "status": 404
+      },
+      "pointer": "/paths/~1v2~1payer~1{clientUserId}/patch/responses/404/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "PayerV2Controller_updateComplianceStatus_v2",
+        "kind": "request",
+        "variant": "application/json"
+      },
+      "pointer": "/paths/~1v2~1payer~1{clientUserId}/patch/requestBody/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "PayerV2Controller_updateComplianceStatus_v2",
+        "kind": "response",
+        "variant": "application/json",
+        "status": 200
+      },
+      "pointer": "/paths/~1v2~1payer~1{clientUserId}/patch/responses/200/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "PaymentV2Controller_searchPayments_v2",
+        "kind": "error",
+        "variant": "application/json",
+        "status": 400
+      },
+      "pointer": "/paths/~1v2~1payments/get/responses/400/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "PaymentV2Controller_searchPayments_v2",
+        "kind": "error",
+        "variant": "application/json",
+        "status": 401
+      },
+      "pointer": "/paths/~1v2~1payments/get/responses/401/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "PaymentV2Controller_searchPayments_v2",
+        "kind": "response",
+        "variant": "application/json",
+        "status": 200
+      },
+      "pointer": "/paths/~1v2~1payments/get/responses/200/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "PayoutV2Controller_payBatchRequest_v2",
+        "kind": "request",
+        "variant": "application/json"
+      },
+      "pointer": "/paths/~1v2~1payouts~1batch/post/requestBody/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "PayoutV2Controller_payBatchRequest_v2",
+        "kind": "response",
+        "variant": "application/json",
+        "status": 201
+      },
+      "pointer": "/paths/~1v2~1payouts~1batch/post/responses/201/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "PayoutV2Controller_payRequest_v2",
+        "kind": "request",
+        "variant": "application/json"
+      },
+      "pointer": "/paths/~1v2~1payouts/post/requestBody/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "PayoutV2Controller_payRequest_v2",
+        "kind": "response",
+        "variant": "application/json",
+        "status": 201
+      },
+      "pointer": "/paths/~1v2~1payouts/post/responses/201/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "PayoutV2Controller_submitRecurringPaymentSignature_v2",
+        "kind": "request",
+        "variant": "application/json"
+      },
+      "pointer": "/paths/~1v2~1payouts~1recurring~1{id}/post/requestBody/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "PayoutV2Controller_updateRecurringPayment_v2",
+        "kind": "request",
+        "variant": "application/json"
+      },
+      "pointer": "/paths/~1v2~1payouts~1recurring~1{id}/patch/requestBody/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "PayV1Controller_payRequest_v1",
+        "kind": "request",
+        "variant": "application/json"
+      },
+      "pointer": "/paths/~1v1~1pay/post/requestBody/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "PayV1Controller_payRequest_v1",
+        "kind": "response",
+        "variant": "application/json",
+        "status": 201
+      },
+      "pointer": "/paths/~1v1~1pay/post/responses/201/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "RequestControllerV1_createRequest_v1",
+        "kind": "request",
+        "variant": "application/json"
+      },
+      "pointer": "/paths/~1v1~1request/post/requestBody/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "RequestControllerV1_createRequest_v1",
+        "kind": "response",
+        "variant": "application/json",
+        "status": 201
+      },
+      "pointer": "/paths/~1v1~1request/post/responses/201/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "RequestControllerV1_getPaymentCalldata_v1",
+        "kind": "response",
+        "variant": "application/json",
+        "status": 200
+      },
+      "pointer": "/paths/~1v1~1request~1{paymentReference}~1pay/get/responses/200/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "RequestControllerV1_getRequestPaymentRoutes_v1",
+        "kind": "response",
+        "variant": "application/json",
+        "status": 200
+      },
+      "pointer": "/paths/~1v1~1request~1{paymentReference}~1routes/get/responses/200/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "RequestControllerV1_getRequestStatus_v1",
+        "kind": "response",
+        "variant": "application/json",
+        "status": 200
+      },
+      "pointer": "/paths/~1v1~1request~1{paymentReference}/get/responses/200/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "RequestControllerV1_sendPaymentIntent_v1",
+        "kind": "request",
+        "variant": "application/json"
+      },
+      "pointer": "/paths/~1v1~1request~1{paymentIntentId}~1send/post/requestBody/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "RequestControllerV2_createRequest_v2",
+        "kind": "request",
+        "variant": "application/json"
+      },
+      "pointer": "/paths/~1v2~1request/post/requestBody/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "RequestControllerV2_createRequest_v2",
+        "kind": "response",
+        "variant": "application/json",
+        "status": 201
+      },
+      "pointer": "/paths/~1v2~1request/post/responses/201/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "RequestControllerV2_getPaymentCalldata_v2",
+        "kind": "response",
+        "variant": "application/json",
+        "status": 200
+      },
+      "pointer": "/paths/~1v2~1request~1{requestId}~1pay/get/responses/200/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "RequestControllerV2_getRequestPaymentRoutes_v2",
+        "kind": "response",
+        "variant": "application/json",
+        "status": 200
+      },
+      "pointer": "/paths/~1v2~1request~1{requestId}~1routes/get/responses/200/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "RequestControllerV2_getRequestStatus_v2",
+        "kind": "response",
+        "variant": "application/json",
+        "status": 200
+      },
+      "pointer": "/paths/~1v2~1request~1{requestId}/get/responses/200/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "RequestControllerV2_sendPaymentIntent_v2",
+        "kind": "request",
+        "variant": "application/json"
+      },
+      "pointer": "/paths/~1v2~1request~1payment-intents~1{paymentIntentId}/post/requestBody/content/application~1json/schema"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "event": "payment.confirmed",
+  "requestId": "req_test123456789abcdef",
+  "requestID": "req_test123456789abcdef",
+  "paymentReference": "0x1234567890abcdef1234567890abcdef12345678",
+  "explorer": "https://scan.request.network/request/req_test123456789abcdef",
+  "amount": "100.0",
+  "totalAmountPaid": "100.0",
+  "expectedAmount": "100.0",
+  "timestamp": "2025-08-28T12:25:45.995Z",
+  "txHash": "0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890",
+  "network": "ethereum",
+  "currency": "USDC",
+  "paymentCurrency": "USDC",
+  "isCryptoToFiat": false,
+  "paymentProcessor": "request-network",
+  "fees": [
+    {
+      "type": "network",
+      "amount": "0.02",
+      "currency": "ETH"
+    }
+  ]
+}

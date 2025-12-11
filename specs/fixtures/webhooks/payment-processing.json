@@ -1,0 +1,13 @@
+{
+  "event": "payment.processing",
+  "requestId": "req_proc1234567890",
+  "paymentReference": "0xproc1234567890abcdef1234567890abcdef1234",
+  "amount": "100.0",
+  "totalAmountPaid": "0.0",
+  "expectedAmount": "100.0",
+  "timestamp": "2025-08-28T18:25:45.995Z",
+  "paymentCurrency": "USDC",
+  "isCryptoToFiat": true,
+  "paymentProcessor": "request-network",
+  "subStatus": "processing"
+}

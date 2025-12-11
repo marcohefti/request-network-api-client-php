@@ -1,0 +1,21 @@
+includes:
+  - vendor/phpstan/phpstan-dependency-rules/rules.neon
+
+parameters:
+  paths:
+    - src
+  # Define namespace dependency rules here to prevent cycles and illegal imports.
+  # Example (adjust as implementation lands):
+  # dependencyRules:
+  #   -
+  #     what: RequestSuite\\RequestPhpClient\\Domains\\.*
+  #     mustOnlyDependOn:
+  #       - RequestSuite\\RequestPhpClient\\Core\\.*
+  #       - RequestSuite\\RequestPhpClient\\Http\\.*
+  #       - RequestSuite\\RequestPhpClient\\Retry\\.*
+  #       - RequestSuite\\RequestPhpClient\\Validation\\.*
+  #       - RequestSuite\\RequestPhpClient\\Webhooks\\.*
+  #       - RequestSuite\\RequestPhpClient\\Domains\\[A-Za-z0-9_]+\\Contracts\\.*
+  #     exceptions:
+  #       - RequestSuite\\RequestPhpClient\\Domains\\Shared\\.*
+

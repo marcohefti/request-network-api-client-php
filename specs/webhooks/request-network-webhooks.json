@@ -1,0 +1,850 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Request Network Webhooks",
+    "version": "0.1.0",
+    "description": "Webhook events sent by the Request Network API to subscribed endpoints. Each request is signed with an HMAC-SHA256 hex digest in the `x-request-network-signature` header (computed over the raw JSON body using your webhook secret). This community-maintained spec currently models the documented events (`payment.confirmed`, `payment.failed`, `payment.processing`, `payment_detail.updated`, `compliance.updated`). Additional payment lifecycle events such as \"Payment Partial\" or \"Payment Refunded\" are not yet included because the official docs do not publish canonical identifiers or payload schemas for them."
+  },
+  "webhooks": {
+    "payment.confirmed": {
+      "post": {
+        "summary": "Payment fully settled",
+        "description": "Sent when a payment is fully settled. In crypto-to-fiat flows, this follows a final `payment.processing` with `subStatus: fiat_sent`.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/XRequestNetworkSignature"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaymentConfirmedEvent"
+              },
+              "examples": {
+                "paymentConfirmed": {
+                  "$ref": "#/components/examples/payment_confirmed"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Acknowledged"
+          },
+          "401": {
+            "description": "Signature verification failed"
+          }
+        },
+        "security": [
+          {
+            "RequestSignatureHMAC": []
+          }
+        ]
+      }
+    },
+    "payment.failed": {
+      "post": {
+        "summary": "Payment or offramp failed",
+        "description": "Sent when a payment or crypto-to-fiat offramp fails.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/XRequestNetworkSignature"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaymentFailedEvent"
+              },
+              "examples": {
+                "paymentFailed": {
+                  "$ref": "#/components/examples/payment_failed"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Acknowledged"
+          },
+          "401": {
+            "description": "Signature verification failed"
+          }
+        },
+        "security": [
+          {
+            "RequestSignatureHMAC": []
+          }
+        ]
+      }
+    },
+    "payment.processing": {
+      "post": {
+        "summary": "Offramp in progress",
+        "description": "Sent as the crypto-to-fiat offramp progresses. The `subStatus` field indicates the current stage.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/XRequestNetworkSignature"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaymentProcessingEvent"
+              },
+              "examples": {
+                "paymentProcessing": {
+                  "$ref": "#/components/examples/payment_processing"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Acknowledged"
+          },
+          "401": {
+            "description": "Signature verification failed"
+          }
+        },
+        "security": [
+          {
+            "RequestSignatureHMAC": []
+          }
+        ]
+      }
+    },
+    "payment_detail.updated": {
+      "post": {
+        "summary": "Payment detail (bank account) status update",
+        "description": "Sent when payee payment details used for crypto-to-fiat are updated (approved/failed/pending).",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/XRequestNetworkSignature"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaymentDetailUpdatedEvent"
+              },
+              "examples": {
+                "paymentDetailUpdated": {
+                  "$ref": "#/components/examples/payment_detail_updated"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Acknowledged"
+          },
+          "401": {
+            "description": "Signature verification failed"
+          }
+        },
+        "security": [
+          {
+            "RequestSignatureHMAC": []
+          }
+        ]
+      }
+    },
+    "compliance.updated": {
+      "post": {
+        "summary": "KYC/Agreement status update",
+        "description": "Sent when payer compliance statuses change (KYC or agreement).",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/XRequestNetworkSignature"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ComplianceUpdatedEvent"
+              },
+              "examples": {
+                "complianceUpdated": {
+                  "$ref": "#/components/examples/compliance_updated"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Acknowledged"
+          },
+          "401": {
+            "description": "Signature verification failed"
+          }
+        },
+        "security": [
+          {
+            "RequestSignatureHMAC": []
+          }
+        ]
+      }
+    },
+    "payment.partial": {
+      "post": {
+        "summary": "Partial payment applied",
+        "description": "Sent when a request receives a partial payment.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/XRequestNetworkSignature"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaymentPartialEvent"
+              },
+              "examples": {
+                "payment_partial": {
+                  "$ref": "#/components/examples/payment_partial"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Acknowledged"
+          },
+          "401": {
+            "description": "Signature verification failed"
+          }
+        },
+        "security": [
+          {
+            "RequestSignatureHMAC": []
+          }
+        ]
+      }
+    },
+    "payment.refunded": {
+      "post": {
+        "summary": "Payment refunded",
+        "description": "Sent when Request issues a refund for a payment.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/XRequestNetworkSignature"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaymentRefundedEvent"
+              },
+              "examples": {
+                "payment_refunded": {
+                  "$ref": "#/components/examples/payment_refunded"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Acknowledged"
+          },
+          "401": {
+            "description": "Signature verification failed"
+          }
+        },
+        "security": [
+          {
+            "RequestSignatureHMAC": []
+          }
+        ]
+      }
+    },
+    "request.recurring": {
+      "post": {
+        "summary": "Recurring request created",
+        "description": "Sent when a new recurring request is generated from an existing request.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/XRequestNetworkSignature"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RequestRecurringEvent"
+              },
+              "examples": {
+                "request_recurring": {
+                  "$ref": "#/components/examples/request_recurring"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Acknowledged"
+          },
+          "401": {
+            "description": "Signature verification failed"
+          }
+        },
+        "security": [
+          {
+            "RequestSignatureHMAC": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "RequestSignatureHMAC": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "x-request-network-signature",
+        "description": "HMAC-SHA256 hex digest of the raw request body, generated with your webhook secret. Verify by recomputing the digest over the exact raw body and comparing in constant time."
+      }
+    },
+    "parameters": {
+      "XRequestNetworkSignature": {
+        "name": "x-request-network-signature",
+        "in": "header",
+        "required": true,
+        "description": "HMAC-SHA256 signature of the raw JSON request body using your webhook secret. Hex-encoded.",
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "schemas": {
+      "WebhookFeeItem": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Fee type as provided in the webhook (example: \"network\")."
+          },
+          "amount": {
+            "type": "string",
+            "description": "Human-readable amount as a string."
+          },
+          "currency": {
+            "type": "string",
+            "description": "Currency code/symbol as provided (e.g., \"ETH\")."
+          }
+        },
+        "required": [
+          "type",
+          "amount",
+          "currency"
+        ]
+      },
+      "WebhookBase": {
+        "type": "object",
+        "additionalProperties": true,
+        "description": "Common fields observed in webhook payloads. Presence may vary by event.",
+        "properties": {
+          "event": {
+            "type": "string",
+            "description": "Event identifier string."
+          },
+          "requestId": {
+            "type": "string",
+            "description": "Request identifier when applicable."
+          },
+          "requestID": {
+            "type": "string",
+            "description": "Alias of requestId that may appear in some payloads."
+          },
+          "paymentReference": {
+            "type": "string",
+            "description": "Opaque reference used to link blockchain transactions."
+          },
+          "explorer": {
+            "type": "string",
+            "format": "uri",
+            "description": "Explorer URL for the request."
+          },
+          "amount": {
+            "type": "string",
+            "description": "Paid amount (human-readable string)."
+          },
+          "totalAmountPaid": {
+            "type": "string",
+            "description": "Total amount paid to date (human-readable string)."
+          },
+          "expectedAmount": {
+            "type": "string",
+            "description": "Expected amount for the request (human-readable string)."
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "RFC 3339 timestamp of the event."
+          },
+          "txHash": {
+            "type": "string",
+            "description": "Blockchain transaction hash (if applicable)."
+          },
+          "network": {
+            "type": "string",
+            "description": "Blockchain/network name (e.g., \"ethereum\")."
+          },
+          "currency": {
+            "type": "string",
+            "description": "Invoice/request currency code."
+          },
+          "paymentCurrency": {
+            "type": "string",
+            "description": "Currency actually used for payment."
+          },
+          "isCryptoToFiat": {
+            "type": "boolean",
+            "description": "True if the payment used the crypto-to-fiat flow."
+          },
+          "subStatus": {
+            "type": "string",
+            "description": "Additional state qualifier for some events."
+          },
+          "paymentProcessor": {
+            "type": "string",
+            "description": "Payment processor identifier (example: \"request-network\")."
+          },
+          "fees": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WebhookFeeItem"
+            }
+          },
+          "rawPayload": {
+            "type": "object",
+            "description": "Raw provider payload forwarded by Request (structure varies per provider).",
+            "additionalProperties": true
+          },
+          "clientUserId": {
+            "type": "string",
+            "description": "Client user identifier associated with the webhook when available."
+          }
+        },
+        "required": [
+          "event"
+        ]
+      },
+      "PaymentConfirmedEvent": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/WebhookBase"
+          },
+          {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+              "event": {
+                "const": "payment.confirmed"
+              }
+            },
+            "required": [
+              "event"
+            ]
+          }
+        ],
+        "description": "Payment fully settled (fiat delivered for crypto-to-fiat)."
+      },
+      "PaymentFailedEvent": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/WebhookBase"
+          },
+          {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+              "event": {
+                "const": "payment.failed"
+              },
+              "subStatus": {
+                "type": "string",
+                "enum": [
+                  "failed",
+                  "bounced",
+                  "insufficient_funds"
+                ],
+                "description": "Additional failure detail when provided."
+              },
+              "failureReason": {
+                "type": "string",
+                "description": "Human-readable reason explaining why the payment failed when provided."
+              },
+              "retryAfter": {
+                "type": "string",
+                "description": "Suggested retry window (ISO timestamp or duration hint) when the failure is recoverable."
+              }
+            },
+            "required": [
+              "event"
+            ]
+          }
+        ],
+        "description": "Payment or offramp failed."
+      },
+      "PaymentProcessingEvent": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/WebhookBase"
+          },
+          {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+              "event": {
+                "const": "payment.processing"
+              },
+              "subStatus": {
+                "type": "string",
+                "enum": [
+                  "initiated",
+                  "pending_internal_assessment",
+                  "ongoing_checks",
+                  "sending_fiat",
+                  "fiat_sent",
+                  "bounced",
+                  "retry_required",
+                  "processing"
+                ],
+                "description": "Offramp processing stage."
+              },
+              "rawPayload": {
+                "type": "object",
+                "additionalProperties": true,
+                "description": "Provider-specific payload describing the processing state."
+              }
+            },
+            "required": [
+              "event"
+            ]
+          }
+        ],
+        "description": "Offramp in progress; see subStatus for stage."
+      },
+      "PaymentDetailUpdatedEvent": {
+        "type": "object",
+        "additionalProperties": true,
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/WebhookBase"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "event": {
+                "const": "payment_detail.updated"
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "approved",
+                  "failed",
+                  "pending",
+                  "verified"
+                ],
+                "description": "Status of the payment details (bank account) used for off-ramp."
+              },
+              "paymentAccountId": {
+                "type": "string",
+                "description": "Identifier of the payment account whose status changed."
+              },
+              "rejectionMessage": {
+                "type": "string",
+                "description": "Optional rejection message supplied when status is failed."
+              },
+              "paymentDetailsId": {
+                "type": "string",
+                "description": "Identifier of the payment details record whose status changed."
+              },
+              "rawPayload": {
+                "type": "object",
+                "additionalProperties": true,
+                "description": "Provider-specific payload attached to the event."
+              }
+            },
+            "required": [
+              "event",
+              "status"
+            ]
+          }
+        ],
+        "description": "Payment detail (bank account) approval state change."
+      },
+      "ComplianceUpdatedEvent": {
+        "type": "object",
+        "additionalProperties": true,
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/WebhookBase"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "event": {
+                "const": "compliance.updated"
+              },
+              "kycStatus": {
+                "type": "string",
+                "enum": [
+                  "initiated",
+                  "pending",
+                  "approved",
+                  "rejected",
+                  "failed"
+                ],
+                "description": "KYC review status (when applicable)."
+              },
+              "agreementStatus": {
+                "type": "string",
+                "enum": [
+                  "not_started",
+                  "pending",
+                  "completed",
+                  "rejected",
+                  "failed",
+                  "signed"
+                ],
+                "description": "Compliance agreement status (when applicable)."
+              },
+              "clientUserId": {
+                "type": "string",
+                "description": "Platform-defined payer identifier referenced by `/payer` endpoints."
+              },
+              "isCompliant": {
+                "type": "boolean",
+                "description": "True when the user currently satisfies compliance requirements."
+              },
+              "rawPayload": {
+                "type": "object",
+                "additionalProperties": true,
+                "description": "Provider-specific compliance payload when forwarded by Request."
+              }
+            },
+            "required": [
+              "event"
+            ]
+          }
+        ],
+        "description": "Compliance (KYC/Agreement) update for a payer."
+      },
+      "PaymentPartialEvent": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/WebhookBase"
+          },
+          {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+              "event": {
+                "const": "payment.partial"
+              }
+            },
+            "required": [
+              "event"
+            ]
+          }
+        ],
+        "description": "Partial payment recorded for the request."
+      },
+      "PaymentRefundedEvent": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/WebhookBase"
+          },
+          {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+              "event": {
+                "const": "payment.refunded"
+              },
+              "refundedTo": {
+                "type": "string",
+                "description": "Destination account or address that received the refund."
+              },
+              "refundAmount": {
+                "type": "string",
+                "description": "Amount refunded (human-readable string)."
+              }
+            },
+            "required": [
+              "event"
+            ]
+          }
+        ],
+        "description": "Refund issued back to a sender or alternate destination."
+      },
+      "RequestRecurringEvent": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/WebhookBase"
+          },
+          {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+              "event": {
+                "const": "request.recurring"
+              },
+              "originalRequestId": {
+                "type": "string",
+                "description": "Identifier of the original request that triggered the recurring event."
+              },
+              "originalRequestPaymentReference": {
+                "type": "string",
+                "description": "Payment reference from the original request."
+              }
+            },
+            "required": [
+              "event"
+            ]
+          }
+        ],
+        "description": "Recurring request generated from an existing request."
+      }
+    },
+    "examples": {
+      "payment_confirmed": {
+        "summary": "Example from docs",
+        "value": {
+          "event": "payment.confirmed",
+          "requestId": "req_test123456789abcdef",
+          "requestID": "req_test123456789abcdef",
+          "paymentReference": "0x1234567890abcdef1234567890abcdef12345678",
+          "explorer": "https://scan.request.network/request/req_test123456789abcdef",
+          "amount": "100.0",
+          "totalAmountPaid": "100.0",
+          "expectedAmount": "100.0",
+          "timestamp": "2025-08-28T12:25:45.995Z",
+          "txHash": "0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890",
+          "network": "ethereum",
+          "currency": "USDC",
+          "paymentCurrency": "USDC",
+          "isCryptoToFiat": false,
+          "paymentProcessor": "request-network",
+          "fees": [
+            {
+              "type": "network",
+              "amount": "0.02",
+              "currency": "ETH"
+            }
+          ]
+        }
+      },
+      "payment_failed": {
+        "summary": "Minimal failure example (fields vary by flow)",
+        "value": {
+          "event": "payment.failed",
+          "requestId": "01e273ecc29d4b526df3a0f1f05ffc59372af8752c2b678096e49ac270416a7cdb",
+          "subStatus": "failed",
+          "timestamp": "2025-10-10T12:34:56Z"
+        }
+      },
+      "payment_processing": {
+        "summary": "Offramp stage example",
+        "value": {
+          "event": "payment.processing",
+          "requestId": "01e273ecc29d4b526df3a0f1f05ffc59372af8752c2b678096e49ac270416a7cdb",
+          "subStatus": "processing",
+          "timestamp": "2025-10-10T12:35:10Z",
+          "isCryptoToFiat": true,
+          "rawPayload": {
+            "status": "processing"
+          }
+        }
+      },
+      "payment_detail_updated": {
+        "summary": "Payment details approved",
+        "value": {
+          "event": "payment_detail.updated",
+          "status": "verified",
+          "timestamp": "2025-10-10T12:00:00Z",
+          "clientUserId": "user-123",
+          "paymentDetailsId": "pd_example",
+          "rawPayload": {
+            "bankAccount": "verified"
+          }
+        }
+      },
+      "compliance_updated": {
+        "summary": "KYC and agreement status update",
+        "value": {
+          "event": "compliance.updated",
+          "clientUserId": "user-123",
+          "kycStatus": "approved",
+          "agreementStatus": "signed",
+          "timestamp": "2025-10-10T12:00:00Z",
+          "isCompliant": true
+        }
+      },
+      "payment_partial": {
+        "summary": "Partial payment received",
+        "value": {
+          "event": "payment.partial",
+          "requestId": "req_test123456789abcdef",
+          "paymentReference": "0x1234567890abcdef1234567890abcdef12345678",
+          "amount": "50.0",
+          "totalAmountPaid": "50.0",
+          "expectedAmount": "100.0",
+          "timestamp": "2025-11-04T05:19:59.380Z",
+          "paymentProcessor": "request-network",
+          "fees": []
+        }
+      },
+      "payment_refunded": {
+        "summary": "Payment refunded",
+        "value": {
+          "event": "payment.refunded",
+          "requestId": "req_test123456789abcdef",
+          "paymentReference": "0x1234567890abcdef1234567890abcdef12345678",
+          "refundedTo": "0x742d35Cc6634C0532925a3b8D78Ecf23Ee6d63D4",
+          "refundAmount": "100.0",
+          "currency": "USDC",
+          "paymentProcessor": "request-network"
+        }
+      },
+      "request_recurring": {
+        "summary": "Recurring request created",
+        "value": {
+          "event": "request.recurring",
+          "requestId": "req_new123456789abcdef",
+          "paymentReference": "0x9876543210fedcba9876543210fedcba98765432",
+          "originalRequestId": "req_test123456789abcdef",
+          "originalRequestPaymentReference": "0x1234567890abcdef1234567890abcdef12345678",
+          "timestamp": "2025-11-04T05:21:22.149Z",
+          "paymentProcessor": "request-network"
+        }
+      }
+    }
+  }
+}

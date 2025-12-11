@@ -1,0 +1,9 @@
+{
+  "event": "request.recurring",
+  "requestId": "req_recurring9876543210",
+  "paymentReference": "0x9876543210fedcba9876543210fedcba98765432",
+  "originalRequestId": "req_original1234567890",
+  "originalRequestPaymentReference": "0x1234567890abcdef1234567890abcdef12345678",
+  "timestamp": "2025-11-04T05:21:22.149Z",
+  "paymentProcessor": "request-network"
+}

@@ -1,0 +1,10 @@
+{
+  "event": "payment.refunded",
+  "requestId": "req_refunded1234567890",
+  "paymentReference": "0xrefund1234567890abcdef1234567890abcdef5678",
+  "refundedTo": "0x742d35cc6634c0532925a3b8d78ecf23ee6d63d4",
+  "refundAmount": "100.0",
+  "currency": "USDC",
+  "timestamp": "2025-11-04T05:20:45.123Z",
+  "paymentProcessor": "request-network"
+}

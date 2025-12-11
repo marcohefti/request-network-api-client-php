@@ -1,0 +1,8 @@
+{
+  "event": "compliance.updated",
+  "requestId": "req_compliance789",
+  "clientUserId": "user-789",
+  "kycStatus": "initiated",
+  "agreementStatus": "pending",
+  "timestamp": "2025-08-29T00:25:45.995Z"
+}

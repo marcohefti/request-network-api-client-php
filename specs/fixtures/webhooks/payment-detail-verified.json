@@ -1,0 +1,11 @@
+{
+  "event": "payment_detail.updated",
+  "paymentDetailsId": "pd_test_verified",
+  "clientUserId": "user_test_verified",
+  "status": "verified",
+  "timestamp": "2025-11-04T05:18:54.721Z",
+  "rawPayload": {
+    "bankAccount": "verified",
+    "method": "bank_transfer"
+  }
+}

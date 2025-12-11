@@ -1,0 +1,7 @@
+{
+  "event": "payment_detail.updated",
+  "requestId": "req_detail789",
+  "paymentAccountId": "acct_pending_789",
+  "status": "pending",
+  "timestamp": "2025-08-28T21:25:45.995Z"
+}

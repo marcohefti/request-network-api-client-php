@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<ruleset name="Request PHP Client Standard">
+  <description>PHPCS rules mapping TS ESLint intent to PHP</description>
+
+  <file>src</file>
+  <exclude-pattern>vendor/*</exclude-pattern>
+  <exclude-pattern>generated/*</exclude-pattern>
+  <exclude-pattern>specs/*</exclude-pattern>
+  <exclude-pattern>tests/*</exclude-pattern>
+
+  <!-- Base standard -->
+  <rule ref="PSR12"/>
+
+  <!-- Enforce imports and ordering -->
+  <rule ref="SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly"/>
+  <rule ref="SlevomatCodingStandard.Namespaces.DisallowGroupUse"/>
+  <rule ref="SlevomatCodingStandard.Namespaces.AlphabeticallySortedUses"/>
+
+  <!-- (Optional) ClassName↔FileName check omitted for now due to PSR-4 mapping path nuances. -->
+
+  <!-- Type hints everywhere -->
+  <rule ref="SlevomatCodingStandard.TypeHints.ParameterTypeHint"/>
+  <rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHint"/>
+  <rule ref="SlevomatCodingStandard.TypeHints.PropertyTypeHint"/>
+
+  <!-- File length rule omitted (PHPCS lacks a portable FileLength sniff); complexity limits handled by PHPMD. -->
+
+  <!-- Forbid debug/output and risky file-level includes (maps no-console/import rules) -->
+  <rule ref="Generic.PHP.ForbiddenFunctions">
+    <properties>
+      <property name="forbiddenFunctions" type="array">
+        <element key="var_dump" value="print_r"/>
+        <element key="print_r" value="var_export"/>
+        <element key="die" value="throw_exception"/>
+        <element key="exit" value="throw_exception"/>
+        <element key="require" value="composer_autoload"/>
+        <element key="include" value="composer_autoload"/>
+        <element key="require_once" value="composer_autoload"/>
+        <element key="include_once" value="composer_autoload"/>
+      </property>
+    </properties>
+  </rule>
+
+  <!-- Forbid blanket ignore comments (maps eslint-comments/no-use && ban-ts-comment) -->
+  <rule ref="SlevomatCodingStandard.Commenting.ForbiddenAnnotations">
+    <properties>
+      <property name="forbiddenAnnotations" type="array">
+        <element value="@phpcs:ignore"/>
+        <element value="@phpcs:disable"/>
+        <element value="@phpstan-ignore-next-line"/>
+        <element value="@phpstan-ignore-line"/>
+      </property>
+    </properties>
+  </rule>
+</ruleset>

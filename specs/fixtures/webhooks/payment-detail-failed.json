@@ -1,0 +1,8 @@
+{
+  "event": "payment_detail.updated",
+  "requestId": "req_detail456",
+  "paymentAccountId": "acct_failed_456",
+  "status": "failed",
+  "rejectionMessage": "Bank verification failed",
+  "timestamp": "2025-08-28T20:25:45.995Z"
+}
