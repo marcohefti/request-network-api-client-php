@@ -12,7 +12,7 @@ place. Use this checklist when preparing a release.
 - [ ] Regenerate DTOs/webhook schemas from `@request/request-network-api-contracts/specs/openapi/request-network-openapi.json`
       (and `@request/request-network-api-contracts/fixtures/webhooks/**`) using the local codegen scripts, then commit
       the outputs.
-- [ ] Ensure `@request/request-network-api-contracts` is available (workspace path `packages/request-client-contracts` or an npm dependency pinned to the release tag) so `composer update:spec` and parity guards can sync assets without manual intervention.
+- [ ] Ensure `@request/request-network-api-contracts` is available (workspace path `/request-network-api-contracts` or an npm dependency pinned to the release tag) so `composer update:spec` and parity guards can sync assets without manual intervention.
 - [ ] Run `composer test` and `composer stan` inside the package, then
       `pnpm validate --full` from the repo root (capture logs per workspace
       protocol).

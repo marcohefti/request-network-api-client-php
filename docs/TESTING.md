@@ -67,7 +67,7 @@ Set `VALIDATE_SINCE=origin/main` when running scoped validation loops so the orc
 | `composer update:spec` | `packages/request-php-client` | Syncs OpenAPI + webhook specs/fixtures into `specs/**`. |
 | `composer parity:openapi` | `packages/request-php-client` | Fails if `src/Validation/Operations.php` drifts from the synced OpenAPI spec. |
 | `composer parity:webhooks` | `packages/request-php-client` | Fails if webhook event classes drift from synced fixtures. |
-| `pnpm validate --full 2>&1 \| tee /tmp/request-suite-validate.log` | repo root | Runs the workspace validator (`scripts/validate.sh`). Tail the log afterwards to confirm `✅ VALIDATION PASSED`. |
+| `pnpm validate --full 2>&1 \| tee /tmp/request-network-api-client-validate.log` | repo root | Runs the workspace validator (`scripts/validate.sh`). Tail the log afterwards to confirm `✅ VALIDATION PASSED`. |
 | `pnpm validate:scoped -- --filter "./packages/request-php-client"` | repo root | Runs only the phases touching this package. Useful for quick loops between commits. |
 
 ## Contracts & Parity Guardrails
@@ -97,8 +97,8 @@ Set `VALIDATE_SINCE=origin/main` when running scoped validation loops so the orc
 Run the full validator before handoff:
 
 ```sh
-pnpm validate --full 2>&1 | tee /tmp/request-suite-validate.log
-tail -n 60 /tmp/request-suite-validate.log
+pnpm validate --full 2>&1 | tee /tmp/request-network-api-client-validate.log
+tail -n 60 /tmp/request-network-api-client-validate.log
 ```
 
 ## HTTP Testing Strategy

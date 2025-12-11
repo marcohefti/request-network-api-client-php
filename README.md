@@ -49,7 +49,7 @@ Minimal, runnable examples live under `examples/`:
 ## Project Layout
 
 ```
-packages/request-php-client/
+.
 ├── src/
 │   ├── Core/          # Config, HTTP pipeline, retry, exceptions
 │   ├── Domains/       # Facades mapped to Request API domains (to be populated)
@@ -76,7 +76,7 @@ packages/request-php-client/
 
 ## Spec sync & codegen
 
-- `composer update:spec` - copies OpenAPI + webhook fixtures from `packages/request-client-contracts` into `specs/`.
+- `composer update:spec` - copies OpenAPI + webhook fixtures from `/request-network-api-contracts` into `specs/`.
 - `composer codegen` - generates `generated/OpenApi/Operations.php` (operation metadata) and the validation schema manifest consumed by `SchemaRegistry`.
 - Generated assets live under `generated/`. Commit them alongside code so runtime validation works without extra steps.
 
@@ -335,7 +335,7 @@ use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use RequestSuite\RequestPhpClient\RequestClient;
 
-$logger = new Logger('request-suite');
+$logger = new Logger('request-network-api-client');
 $logger->pushHandler(new StreamHandler('php://stdout'));
 
 $client = RequestClient::create([
