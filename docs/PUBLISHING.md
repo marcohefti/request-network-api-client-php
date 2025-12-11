@@ -5,17 +5,15 @@ payments, payer compliance, currencies, webhooks) and validation story are in
 place. Use this checklist when preparing a release.
 
 ## Preflight
-- [x] Ensure `packages/request-network-api-client-php/README.md` documents installation (composer require),
+- [x] Ensure `README.md` documents installation (composer require),
       configuration (env vars/options), and usage examples for HTTP facades + webhook helpers.
 - [x] Confirm `docs/ARCHITECTURE.md` reflects the latest transport/domain
       design and regeneration commands.
 - [x] Regenerate DTOs/webhook schemas from `@marcohefti/request-network-api-contracts/specs/openapi/request-network-openapi.json`
       (and `@marcohefti/request-network-api-contracts/fixtures/webhooks/**`) using the local codegen scripts, then commit
       the outputs.
-- [x] Ensure `@marcohefti/request-network-api-contracts` is available (workspace path `/packages/request-network-api-contracts` or an npm dependency pinned to the release tag) so `composer update:spec` and parity guards can sync assets without manual intervention.
-- [x] Run `composer test` and `composer stan` inside the package. Optionally follow with
-      `pnpm validate:scoped -- --filter "./packages/request-network-api-client-php"` or a full
-      `pnpm validate --full` from the repo root (capture logs per workspace protocol) before handoff.
+- [x] Ensure `@marcohefti/request-network-api-contracts` is available (via npm as a sibling directory or as an npm dependency pinned to the release tag) so `composer update:spec` and parity guards can sync assets without manual intervention.
+- [x] Run `composer test` and `composer stan` inside the package to ensure all tests pass and static analysis is clean.
 
 ## Release Metadata
 - Update `composer.json`:
@@ -36,15 +34,12 @@ Tagging strategy for this package:
 - Treat `0.x` as feature-bearing: minor (`0.minor`) can contain breaking changes, patch (`0.x.patch`) is reserved for backward-compatible fixes.
 - Reserve `1.0.0` for the first stable GA release; from that point onward, follow strict SemVer (breaking changes require a major bump).
 
-## Repository Split (post-monorepo)
-- [ ] Use `git subtree split` or `git filter-repo` to extract
-      `packages/request-network-api-client-php` into a standalone repository.
-- [ ] Configure CI in the public repo to run composer install, PHPUnit,
-      PHPStan, and any codegen/validation scripts.
-- [ ] Add `@marcohefti/request-network-api-contracts` as a Node dependency (git tag or registry package) so `composer update:spec` continues working outside the monorepo.
-- [ ] Add Packagist hook (or GitHub Actions workflow) to publish on tagged
-      releases.
-- [ ] Mirror docs (README, architecture) in the public repo.
+## Repository Setup
+- [x] Repository is standalone at `git@github.com:marcohefti/request-network-api-client-php.git`.
+- [x] CI configured to run composer install, PHPUnit, PHPStan, and codegen/validation scripts.
+- [x] `@marcohefti/request-network-api-contracts` available as an npm package so `composer update:spec` works.
+- [x] Packagist hook configured to publish on tagged releases.
+- [x] Docs (README, architecture) are in the repository.
 
 ## Publishing Steps
 1. Bump the version in `composer.json` (following semver).

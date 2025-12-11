@@ -3,7 +3,7 @@
 The PHP package mirrors the TypeScript SDK’s guard rails so every release ships with the same signal quality (unit coverage, static analysis, spec parity, and synced fixtures). This guide explains how to run the suites locally, how CI enforces them, and where future contributors should extend coverage as new behaviour lands.
 
 ## Goals and Non-Goals
-- Document the end-to-end testing workflow for `packages/request-php-client`, including tooling, directory layout, and validation hooks.
+- Document the end-to-end testing workflow for this PHP client repository, including tooling, directory layout, and validation hooks.
 - Record expectations for coverage, contracts sync, and parity scripts so regressions are obvious before release.
 - Surface Mollie-inspired PHP testing ergonomics (PSR-18 mocks, reusable fixtures) that keep suites fast and deterministic.
 - Call out backlog updates required now that the testing contract exists.
@@ -42,33 +42,28 @@ The PHP package mirrors the TypeScript SDK’s guard rails so every release ship
    composer config --no-plugins allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
    ```
 3. Coverage driver (Xdebug 3 or pcov) if you plan to run `composer coverage`.
-4. Node ≥20 (repo default pins Node 24.x) with `pnpm@10.17.1` via Corepack:
+4. Node ≥20 (only required when you run the contracts sync script or other Node-based tooling). Install the dev dependency for contracts with:
    ```sh
-   corepack enable pnpm@10.17.1
+   npm install
    ```
-5. Install dependencies:
+5. Install PHP dependencies:
    ```sh
-   pnpm install          # workspace (installs @marcohefti/request-network-api-contracts)
-   composer install      # from packages/request-php-client
+   composer install
    ```
-
-Set `VALIDATE_SINCE=origin/main` when running scoped validation loops so the orchestrator only checks packages you touched.
 
 ## Running Tests and Checks
 
 | Command | Location | Description |
 | --- | --- | --- |
-| `composer test` | `packages/request-php-client` | Runs PHPUnit suites defined in `phpunit.xml.dist`. Use `-- --filter RetryPolicyTest` or `-- --group integration` for targeted runs. |
-| `composer coverage` | `packages/request-php-client` | Re-runs PHPUnit with `--coverage-text`. Requires Xdebug/pcov. Treat ≥80 % line coverage as the working floor. |
-| `composer stan` | `packages/request-php-client` | Executes PHPStan level 7 with strict rules. Mirrors TS `pnpm typecheck`. |
-| `composer cs` | `packages/request-php-client` | Runs PHPCS against `src/**`. |
-| `composer cs:fix` | `packages/request-php-client` | Applies PHPCS fixes (best-effort. Rerun `composer cs` afterwards). |
-| `composer md` | `packages/request-php-client` | Runs PHPMD (codesize, cleancode, unusedcode, naming) and reports any violations. |
-| `composer update:spec` | `packages/request-php-client` | Syncs OpenAPI + webhook specs/fixtures into `specs/**`. |
-| `composer parity:openapi` | `packages/request-php-client` | Fails if `src/Validation/Operations.php` drifts from the synced OpenAPI spec. |
-| `composer parity:webhooks` | `packages/request-php-client` | Fails if webhook event classes drift from synced fixtures. |
-| `pnpm validate --full 2>&1 \| tee /tmp/request-network-api-client-validate.log` | repo root | Runs the workspace validator (`scripts/validate.sh`). Tail the log afterwards to confirm `✅ VALIDATION PASSED`. |
-| `pnpm validate:scoped -- --filter "./packages/request-php-client"` | repo root | Runs only the phases touching this package. Useful for quick loops between commits. |
+| `composer test` | repo root | Runs PHPUnit suites defined in `phpunit.xml.dist`. Use `-- --filter RetryPolicyTest` or `-- --group integration` for targeted runs. |
+| `composer coverage` | repo root | Re-runs PHPUnit with `--coverage-text`. Requires Xdebug/pcov. Treat ≥80 % line coverage as the working floor. |
+| `composer stan` | repo root | Executes PHPStan level 7 with strict rules. Mirrors TS `pnpm typecheck`. |
+| `composer cs` | repo root | Runs PHPCS against `src/**`. |
+| `composer cs:fix` | repo root | Applies PHPCS fixes (best-effort. Rerun `composer cs` afterwards). |
+| `composer md` | repo root | Runs PHPMD (codesize, cleancode, unusedcode, naming) and reports any violations. |
+| `composer update:spec` | repo root | Syncs OpenAPI + webhook specs/fixtures into `specs/**`. |
+| `composer parity:openapi` | repo root | Fails if `src/Validation/Operations.php` drifts from the synced OpenAPI spec. |
+| `composer parity:webhooks` | repo root | Fails if webhook event classes drift from synced fixtures. |
 
 ## Contracts & Parity Guardrails
 
@@ -85,21 +80,12 @@ Set `VALIDATE_SINCE=origin/main` when running scoped validation loops so the orc
 
 ## CI & Local Validation
 
-`scripts/validate.sh` orchestrates the same phases CI runs:
+In CI (and before publishing new releases), run at least:
 
-| Phase | What runs for PHP | Trigger |
-| --- | --- | --- |
-| `LINT` | `composer cs:fix` (best-effort), `composer cs`, `composer stan` | Always, when `composer.json` exists. |
-| `TESTS` | `composer test`, optionally `composer coverage` (non-fatal) | Always. |
-| `DUPLICATES` | `composer md` (PHPMD) | Always. Add `composer cpd` once the script exists. |
-| `CONTRACTS` | `composer update:spec` (non-fatal), `composer deps:rules` (planned), `composer parity:openapi`, `composer parity:webhooks` | Always. |
-
-Run the full validator before handoff:
-
-```sh
-pnpm validate --full 2>&1 | tee /tmp/request-network-api-client-validate.log
-tail -n 60 /tmp/request-network-api-client-validate.log
-```
+- `composer cs` and `composer stan` for style and static analysis.
+- `composer test` (optionally `composer coverage` when a coverage driver is available).
+- `composer update:spec` to refresh contracts when needed.
+- `composer parity:openapi` and `composer parity:webhooks` to enforce spec parity.
 
 ## HTTP Testing Strategy
 
@@ -145,4 +131,4 @@ tail -n 60 /tmp/request-network-api-client-validate.log
 
 ## Backlog Alignment
 
-Keep `tasks/TODO/20251106-request-php-client-delivery.md` in sync with this guide-specifically, reference the Fake HTTP adapter, parity guard scripts, validated coverage guard, and note that `composer cpd` / `composer deps:rules` remain future work.
+Track future testing-focused improvements (coverage thresholds, additional parity checks, dependency rules) in your own backlog or issue tracker so they are easy to prioritise alongside feature work.
