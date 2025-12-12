@@ -6,6 +6,57 @@
 - Follow modern PHP standards: PSR-4 autoloading, PSR-18-friendly transport adapters, and pluggable retry/logging hooks.
 
 ## Layered Design
+
+### High-Level Architecture
+
+```mermaid
+graph TB
+    A[RequestClient] --> B[Domain Facades]
+    A --> C[HttpClient]
+    B --> C
+    C --> D[RetryPolicy]
+    C --> E[Interceptors]
+    C --> F[RuntimeValidation]
+    C --> G[HttpAdapter]
+    G --> H[CurlHttpAdapter]
+    G --> I[Psr18HttpAdapter]
+
+    style A fill:#e1f5ff
+    style C fill:#fff4e1
+    style G fill:#ffe1f5
+```
+
+### Request Flow
+
+```mermaid
+sequenceDiagram
+    participant Client as RequestClient
+    participant Facade as Domain Facade
+    participant HTTP as HttpClient
+    participant Retry as RetryPolicy
+    participant Adapter as HttpAdapter
+    participant API as Request Network API
+
+    Client->>Facade: requests().create(data)
+    Facade->>HTTP: request(options)
+    HTTP->>Retry: execute with retry
+    loop Retry Attempts
+        Retry->>Adapter: send request
+        Adapter->>API: HTTP POST
+        API-->>Adapter: Response/Error
+        Adapter-->>Retry: Response
+        alt Success
+            Retry-->>HTTP: Response
+        else Retryable Error
+            Retry->>Retry: Wait with backoff
+        end
+    end
+    HTTP-->>Facade: Parsed response
+    Facade-->>Client: Domain data
+```
+
+### Component Structure
+
 ```
 RequestClient (public entrypoint)
 │
@@ -19,6 +70,36 @@ RequestClient (public entrypoint)
 
 Exceptions bubble up through `RequestApiException` so consumers always receive status, Request error
 code, and correlation identifiers when available.
+```
+
+### Webhook Processing Flow
+
+```mermaid
+sequenceDiagram
+    participant Webhook as Incoming Webhook
+    participant Middleware as WebhookMiddleware
+    participant Verifier as SignatureVerifier
+    participant Parser as WebhookParser
+    participant Dispatcher as WebhookDispatcher
+    participant Handler as Event Handlers
+
+    Webhook->>Middleware: PSR-7 Request
+    Middleware->>Verifier: Verify signature
+    alt Invalid Signature
+        Verifier-->>Middleware: Exception
+        Middleware-->>Webhook: 401 Unauthorized
+    else Valid Signature
+        Verifier-->>Middleware: Verified
+        Middleware->>Parser: Parse payload
+        Parser->>Parser: Validate schema
+        Parser->>Parser: Create typed event
+        Parser-->>Middleware: ParsedWebhookEvent
+        Middleware->>Dispatcher: Dispatch event
+        Dispatcher->>Handler: Invoke listeners
+        Handler-->>Dispatcher: Complete
+        Dispatcher-->>Middleware: Success
+        Middleware-->>Webhook: 200 OK
+    end
 ```
 
 Domain facades (requests, payouts, payments, payer compliance, currencies, client IDs, pay) sit on top

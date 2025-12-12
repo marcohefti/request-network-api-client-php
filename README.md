@@ -1,6 +1,11 @@
 # Request Network API Client (PHP)
 
-PHP client for the Request Network hosted REST API. It mirrors the TypeScript client’s
+[![Latest Version](https://img.shields.io/packagist/v/marcohefti/request-network-api-client.svg?style=flat-square)](https://packagist.org/packages/marcohefti/request-network-api-client)
+[![PHP Version](https://img.shields.io/packagist/php-v/marcohefti/request-network-api-client.svg?style=flat-square)](https://packagist.org/packages/marcohefti/request-network-api-client)
+[![License](https://img.shields.io/packagist/l/marcohefti/request-network-api-client.svg?style=flat-square)](LICENSE)
+[![Total Downloads](https://img.shields.io/packagist/dt/marcohefti/request-network-api-client.svg?style=flat-square)](https://packagist.org/packages/marcohefti/request-network-api-client)
+
+PHP client for the Request Network hosted REST API. It mirrors the TypeScript client's
 surface so WooCommerce and other PHP runtimes can talk to Request without a Node bridge.
 
 ## Installation
@@ -20,19 +25,37 @@ use RequestSuite\RequestPhpClient\RequestClient;
 
 $client = RequestClient::create([
     'apiKey' => $_ENV['REQUEST_API_KEY'],
-    'clientId' => $_ENV['REQUEST_CLIENT_ID'] ?? null,
-    'origin' => 'woo-plugin',
 ]);
 
+// Create a new payment request
 $request = $client->requests()->create([
-    'currency' => 'USD',
-    'expectedAmount' => '1000',
-    'payer' => ['email' => 'customer@example.com'],
+    'amount' => '100',
+    'invoiceCurrency' => 'USD',
+    'paymentCurrency' => 'USDC-sepolia',
+    'payee' => '0x0000000000000000000000000000000000000000',
+    'reference' => 'order-123',
 ]);
 
-$payments = $client->payments()->search(['requestId' => $request['requestId']]);
+$requestId = $request['requestId'] ?? null;
+
+// Search for payments
+$payments = $client->payments()->search(['requestId' => $requestId]);
 ```
 
+
+## Why Use This Client?
+
+Instead of manually building HTTP requests and handling errors, this client provides:
+
+- **Type Safety**: Strict type hints and PHPDoc throughout (PHPStan level 7 clean)
+- **Automatic Retries**: Exponential backoff with jitter for transient failures
+- **Schema Validation**: Runtime validation against OpenAPI specs (optional)
+- **Webhook Security**: Timing-safe signature verification with secret rotation support
+- **Error Handling**: Rich exception hierarchy with correlation IDs and retry headers
+- **Logging**: Automatic credential redaction in PSR-3 compatible logs
+- **Testing**: Built-in FakeHttpAdapter for easy unit testing
+
+**Before vs After:** See `docs/BEFORE-AFTER.md` for side-by-side code comparisons showing how this client simplifies common Request Network API operations.
 
 ## What this client covers
 
@@ -48,6 +71,7 @@ For deeper details (HTTP client, domains, webhooks, error model), see:
 
 - Architecture: `docs/ARCHITECTURE.md`
 - Testing & validation: `docs/TESTING.md`
+- Troubleshooting: `docs/TROUBLESHOOTING.md`
 - Publishing checklist: `docs/PUBLISHING.md`
 - HTTP client details: `docs/HTTP-CLIENT.md`
 - Webhooks guide: `docs/WEBHOOKS.md`
@@ -55,8 +79,9 @@ For deeper details (HTTP client, domains, webhooks, error model), see:
 
 ## Compatibility
 
-- PHP: see the `php` constraint in `composer.json` (currently >= 8.1).
-- Frameworks: designed for PSR‑15 stacks (e.g., WooCommerce, Laravel/Symfony via adapters).
+- **PHP:** >= 8.2
+- **Frameworks:** Designed for PSR‑15 stacks (e.g., WooCommerce, Laravel/Symfony via adapters)
+- **HTTP Clients:** Any PSR-18 compatible client (Guzzle, Symfony HttpClient, etc.) or built-in cURL adapter
 
 ## Development
 
@@ -69,69 +94,37 @@ Common commands:
 
 See `docs/TESTING.md` and `docs/ARCHITECTURE.md` for the full testing strategy, spec sync flow,
 and domain layout.
-use RequestSuite\RequestPhpClient\Webhooks\Events\PaymentDetailApprovedEvent;
-use RequestSuite\RequestPhpClient\Webhooks\Events\PaymentDetailFailedEvent;
 
-if ($parsed->event() instanceof PaymentDetailApprovedEvent) {
-    // status === "approved"
-}
+## Webhooks
 
-if ($parsed->event() instanceof PaymentDetailFailedEvent) {
-    // status === "failed"
-}
-```
-
-Likewise, compliance updates promote to `ComplianceApprovedEvent`, `CompliancePendingEvent`, or
-`ComplianceRejectedEvent` depending on the payload (`kycStatus`, `agreementStatus`, `isCompliant`).
-When statuses fall outside the known fixtures the parser falls back to the base
-`ComplianceUpdatedEvent` so new upstream values remain compatible while still passing schema
-validation.
-
-### Dispatcher, middleware & testing helpers
-
-`WebhookDispatcher` mirrors the TypeScript event bus and lets you register `on`/`once` handlers:
+The webhook module provides secure signature verification, typed event objects, and PSR-15 middleware:
 
 ```php
-use RequestSuite\RequestPhpClient\Webhooks\WebhookDispatcher;
+use RequestSuite\RequestPhpClient\Webhooks\Events\PaymentConfirmedEvent;
+use RequestSuite\RequestPhpClient\Webhooks\WebhookParser;
 
-$dispatcher = new WebhookDispatcher();
-$dispatcher->registerListener('payment.confirmed', function ($event) {
-    // handle event
-});
-```
-
-`WebhookMiddleware` is a PSR-15 middleware that verifies the signature, parses the payload,
-dispatches to the optional `WebhookDispatcher`, and attaches the parsed event to the PSR-7
-request so frameworks such as Symfony or Laravel can keep their own controller logic simple:
-
-```php
-use Nyholm\Psr7\Factory\Psr17Factory;
-use RequestSuite\RequestPhpClient\Webhooks\WebhookMiddleware;
-
-$psr17 = new Psr17Factory();
-$middleware = new WebhookMiddleware([
-    'secret' => $_ENV['REQUEST_WEBHOOK_SECRET'],
-    'dispatcher' => $dispatcher,
-], $psr17, $psr17);
-```
-
-For local tests, `WebhookTestHelper` can generate valid signatures, fabricate PSR-7 requests, and
-temporarily disable verification:
-
-```php
-use RequestSuite\RequestPhpClient\Webhooks\Testing\WebhookTestHelper;
-
-$request = WebhookTestHelper::createMockRequest([
-    'payload' => ['event' => 'payment.confirmed'],
-    'secret' => 'rk_test_secret',
-    'requestFactory' => $psr17,
-    'streamFactory' => $psr17,
+$parser = new WebhookParser();
+$parsed = $parser->parse([
+    'rawBody' => (string) $request->getBody(),
+    'headers' => $request,
+    'secret' => [$_ENV['REQUEST_WEBHOOK_SECRET']],
 ]);
 
-WebhookTestHelper::withVerificationDisabled(function () use ($middleware, $request, $handler) {
-    $middleware->process($request, $handler);
-});
+if ($parsed->event() instanceof PaymentConfirmedEvent) {
+    $data = $parsed->event()->data();
+    $requestId = $data->string('requestId');
+    // Handle payment confirmation
+}
 ```
+
+**Features:**
+- Timing-safe signature verification with secret rotation support
+- Typed event classes for all webhook types
+- PSR-15 middleware for framework integration
+- Event dispatcher for handler registration
+- Testing helpers for unit tests
+
+See `docs/WEBHOOKS.md` and `examples/webhook-handler-middleware.php` for complete webhook integration examples.
 
 ## Logging & redaction
 

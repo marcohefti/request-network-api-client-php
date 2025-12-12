@@ -2,6 +2,18 @@
   "name": "marcohefti/request-network-api-client",
   "version": "0.5.1",
   "description": "Request Network REST API client for PHP.",
+  "keywords": [
+    "request-network",
+    "api-client",
+    "php-client",
+    "blockchain",
+    "payments",
+    "invoicing",
+    "web3",
+    "crypto-payments",
+    "psr-18",
+    "psr-7"
+  ],
   "type": "library",
   "license": "MIT",
   "homepage": "https://github.com/marcohefti/request-network-api-client-php",
@@ -11,6 +23,11 @@
       "homepage": "https://github.com/marcohefti"
     }
   ],
+  "support": {
+    "issues": "https://github.com/marcohefti/request-network-api-client-php/issues",
+    "source": "https://github.com/marcohefti/request-network-api-client-php",
+    "docs": "https://github.com/marcohefti/request-network-api-client-php#readme"
+  },
   "require": {
     "php": "^8.2",
     "ext-json": "*",
