@@ -281,5 +281,3 @@ if ($parsed->event() instanceof PaymentConfirmedEvent) {
 }
 ```
 
-These patterns mirror the TypeScript “Before/After” guide while staying idiomatic for PHP (Guzzle/PSR‑7/PSR‑18).
-
