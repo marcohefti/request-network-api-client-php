@@ -20,14 +20,14 @@ final class CurrenciesV2ApiTest extends TestCase
     {
         $api = $this->apiWithResponses([new Response(200, ['content-type' => 'application/json'], json_encode([
             [
-                'id' => 'USDC-sepolia',
+                'id' => 'ETH-sepolia-sepolia',
                 'symbol' => 'USDC',
             ],
         ], JSON_THROW_ON_ERROR))], $adapter);
 
         $tokens = $api->list(['network' => 'sepolia']);
 
-        self::assertSame('USDC-sepolia', $tokens[0]['id'] ?? null);
+        self::assertSame('ETH-sepolia-sepolia', $tokens[0]['id'] ?? null);
         $path = parse_url($adapter->lastRequest?->url() ?? '', PHP_URL_PATH);
         self::assertSame('/v2/currencies', $path);
 

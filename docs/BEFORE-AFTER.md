@@ -25,7 +25,7 @@ try {
         'json' => [
             'amount' => '1250',
             'invoiceCurrency' => 'USD',
-            'paymentCurrency' => 'USDC-sepolia',
+            'paymentCurrency' => 'ETH-sepolia-sepolia',
             'payee' => '0xpayee',
             'reference' => 'order-123',
         ],
@@ -61,7 +61,7 @@ $client = RequestClient::create([
 $request = $client->requests()->create([
     'amount' => '1250',
     'invoiceCurrency' => 'USD',
-    'paymentCurrency' => 'USDC-sepolia',
+    'paymentCurrency' => 'ETH-sepolia-sepolia',
     'payee' => '0xpayee',
     'reference' => 'order-123',
 ]);

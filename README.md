@@ -32,7 +32,7 @@ $client = RequestClient::create([
 $request = $client->requests()->create([
     'amount' => '100',
     'invoiceCurrency' => 'USD',
-    'paymentCurrency' => 'USDC-sepolia',
+    'paymentCurrency' => 'ETH-sepolia-sepolia',
     'payee' => '0x0000000000000000000000000000000000000000',
     'reference' => 'order-123',
 ]);

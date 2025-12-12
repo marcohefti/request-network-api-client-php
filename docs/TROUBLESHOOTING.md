@@ -273,7 +273,7 @@ errors: [{"path": "/amount", "message": "Value is required"}]
    $request = $client->requests()->create([
        'amount' => '100',              // Required
        'invoiceCurrency' => 'USD',     // Required
-       'paymentCurrency' => 'USDC-sepolia',  // Required
+       'paymentCurrency' => 'ETH-sepolia-sepolia',  // Required
        'payee' => '0x...',             // Required
        'reference' => 'order-123',     // Recommended
    ]);
