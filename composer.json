@@ -1,6 +1,5 @@
 {
   "name": "marcohefti/request-network-api-client",
-  "version": "0.5.1",
   "description": "Request Network REST API client for PHP.",
   "keywords": [
     "request-network",
