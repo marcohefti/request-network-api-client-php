@@ -5,6 +5,36 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.2] - 2024-12-12
+
+### Added
+- GitHub Actions CI workflow testing on PHP 8.2, 8.3, 8.4
+- SECURITY.md with vulnerability reporting guidelines and security features documentation
+- CONTRIBUTING.md with comprehensive contribution guidelines and development workflow
+- CHANGELOG.md for tracking version history
+- GitHub issue templates (bug report, feature request) and PR template
+- Comprehensive TROUBLESHOOTING.md covering common issues and solutions
+- README badges (version, tests, PHP version, license, downloads)
+- "Why Use This Client?" section in README with value proposition
+- Architecture diagrams (Mermaid) in ARCHITECTURE.md showing request flow and webhook processing
+- Three new complete examples:
+  - create-invoice-end-to-end.php (full invoice workflow)
+  - webhook-handler-middleware.php (PSR-15 integration)
+  - error-handling.php (comprehensive error handling patterns)
+
+### Changed
+- Expanded .gitignore with comprehensive PHP/IDE/OS coverage
+- Added keywords to composer.json for better Packagist discoverability
+- Added support section to composer.json with issue/source/docs URLs
+- Corrected PHP version requirement in README (8.2+)
+- Fixed quick start example with correct API field names
+- Condensed webhook section in README for better readability
+- Enhanced compatibility section with framework and HTTP client details
+
+### Fixed
+- Documentation inconsistencies between README and examples
+- Missing standard repository files for professional open-source project
+
 ## [0.5.1] - 2024-12-11
 
 ### Added
