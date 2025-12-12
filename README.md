@@ -58,6 +58,16 @@ Instead of manually building HTTP requests and handling errors, this client prov
 
 **Before vs After:** See `docs/BEFORE-AFTER.md` for side-by-side code comparisons showing how this client simplifies common Request Network API operations.
 
+## Documentation
+
+- **[Architecture](docs/ARCHITECTURE.md)** - System design and internals
+- **[Testing](docs/TESTING.md)** - Test strategy, coverage, and validation
+- **[HTTP Client](docs/HTTP-CLIENT.md)** - HTTP adapter, retry behavior, error handling
+- **[Webhooks](docs/WEBHOOKS.md)** - Signature verification, middleware, event handlers
+- **[Before/After](docs/BEFORE-AFTER.md)** - Code comparisons showing client benefits
+- **[Troubleshooting](docs/TROUBLESHOOTING.md)** - Common issues and solutions
+- **[Publishing](docs/PUBLISHING.md)** - Release checklist
+
 ## What this client covers
 
 - PHP‑first `RequestClient` with facades for requests, payouts, payments, payer/compliance (v1+v2),
@@ -67,16 +77,6 @@ Instead of manually building HTTP requests and handling errors, this client prov
   testing helpers that mirror the TypeScript webhook module.
 - Env‑based factory for backend and WooCommerce usage, with PSR‑4 autoloading under
   `RequestSuite\RequestPhpClient`.
-
-For deeper details (HTTP client, domains, webhooks, error model), see:
-
-- Architecture: `docs/ARCHITECTURE.md`
-- Testing & validation: `docs/TESTING.md`
-- Troubleshooting: `docs/TROUBLESHOOTING.md`
-- Publishing checklist: `docs/PUBLISHING.md`
-- HTTP client details: `docs/HTTP-CLIENT.md`
-- Webhooks guide: `docs/WEBHOOKS.md`
-- Examples: `examples/` (quick start + webhook parsing)
 
 ## Compatibility
 
