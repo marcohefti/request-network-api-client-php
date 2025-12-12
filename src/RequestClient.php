@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace RequestSuite\RequestPhpClient;
 
-use RequestSuite\RequestPhpClient\Core\Config\EnvironmentClientFactory;
 use RequestSuite\RequestPhpClient\Core\Config\RequestClientConfig;
 use RequestSuite\RequestPhpClient\Core\Http\HttpClient;
 use RequestSuite\RequestPhpClient\Domains\ClientIds\ClientIdsApi;
@@ -74,17 +73,6 @@ final class RequestClient
     public static function create(array $options = []): self
     {
         return (new RequestClientFactory())->create($options);
-    }
-
-    /**
-     * @param array<string, string>|null $env
-     */
-    public static function createFromEnv(?array $env = null): self
-    {
-        /** @var self $client */
-        $client = EnvironmentClientFactory::createRequestClient($env);
-
-        return $client;
     }
 
     public function config(): RequestClientConfig

@@ -16,16 +16,3 @@ function createRequestClient(array $options = []): RequestClient
 
     return $factory($options);
 }
-
-/**
- * Helper mirroring TypeScript `createRequestClientFromEnv` that reads from PHP env arrays.
- *
- * @param array<string, string>|null $env
- */
-function createRequestClientFromEnv(?array $env = null): RequestClient
-{
-    /** @var callable(array<string, string>|null): RequestClient $factory */
-    $factory = [RequestClient::class, 'createFromEnv'];
-
-    return $factory($env);
-}

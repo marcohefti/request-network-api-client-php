@@ -39,19 +39,6 @@ final class RequestClientTest extends TestCase
         );
     }
 
-    public function testCreateFromEnvReadsProvidedArray(): void
-    {
-        $client = RequestClient::createFromEnv([
-            'REQUEST_API_URL' => 'https://env.test',
-            'REQUEST_API_KEY' => 'key_123',
-            'REQUEST_CLIENT_ID' => 'id_456',
-        ]);
-
-        self::assertSame('https://env.test', $client->config()->baseUrl());
-        self::assertSame('key_123', $client->config()->apiKey());
-        self::assertSame('id_456', $client->config()->clientId());
-    }
-
     public function testCreateRejectsNonCallableLogger(): void
     {
         $this->expectException(ConfigurationException::class);

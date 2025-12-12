@@ -33,14 +33,6 @@ $request = $client->requests()->create([
 $payments = $client->payments()->search(['requestId' => $request['requestId']]);
 ```
 
-Or load configuration from environment variables:
-
-```php
-use RequestSuite\RequestPhpClient\RequestClient;
-
-$client = RequestClient::createFromEnv();
-// Reads REQUEST_API_URL, REQUEST_API_KEY, REQUEST_CLIENT_ID (+ legacy REQUEST_SDK_* fallbacks)
-```
 
 ## What this client covers
 
