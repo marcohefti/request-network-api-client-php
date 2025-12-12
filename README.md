@@ -1,6 +1,7 @@
 # Request Network API Client (PHP)
 
 [![Latest Version](https://img.shields.io/packagist/v/marcohefti/request-network-api-client.svg?style=flat-square)](https://packagist.org/packages/marcohefti/request-network-api-client)
+[![Tests](https://img.shields.io/github/actions/workflow/status/marcohefti/request-network-api-client-php/tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/marcohefti/request-network-api-client-php/actions/workflows/tests.yml)
 [![PHP Version](https://img.shields.io/packagist/php-v/marcohefti/request-network-api-client.svg?style=flat-square)](https://packagist.org/packages/marcohefti/request-network-api-client)
 [![License](https://img.shields.io/packagist/l/marcohefti/request-network-api-client.svg?style=flat-square)](LICENSE)
 [![Total Downloads](https://img.shields.io/packagist/dt/marcohefti/request-network-api-client.svg?style=flat-square)](https://packagist.org/packages/marcohefti/request-network-api-client)
