@@ -45,10 +45,10 @@
   <rule ref="SlevomatCodingStandard.Commenting.ForbiddenAnnotations">
     <properties>
       <property name="forbiddenAnnotations" type="array">
-        <element value="@phpcs:ignore"/>
-        <element value="@phpcs:disable"/>
-        <element value="@phpstan-ignore-next-line"/>
-        <element value="@phpstan-ignore-line"/>
+        <element value="@phpcs&#58;ignore"/>
+        <element value="@phpcs&#58;disable"/>
+        <element value="@phpstan&#45;ignore-next-line"/>
+        <element value="@phpstan&#45;ignore-line"/>
       </property>
     </properties>
   </rule>
