@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2025-12-11T08:15:59.837Z",
+  "generatedAt": "2026-02-20T18:47:31.512Z",
   "files": {
-    "openapi/request-network-openapi.json": "d209d8ddd421c72c4097198215e9595ee79daae2d73fb8bc786791e29b351d5e",
-    "openapi/request-network-openapi.meta.json": "159ab5f09bdd29e699ce4a6bfa35cc3d2db4a16a7fb678fa957d8702eb5abea2",
+    "openapi/request-network-openapi.json": "ffffcd0d757ef1158c642f8e738aee0e9d6cf3cae6545ad2e5b26ea870a19b50",
+    "openapi/request-network-openapi.meta.json": "de6d0b13e829cacc95c0952f50603aad769500737d1eddf0659bd99cab27c1f0",
     "webhooks/request-network-webhooks.json": "9438ad001651a8459a202d37e873516e05ffe6aeb29efead68bb58b948a5c494",
     "fixtures/webhooks/compliance-approved.json": "2a4a0d4acd7bb568c291aea43f669aecc717a23fd39b6c49e5a8934bfc1ef36c",
     "fixtures/webhooks/compliance-pending.json": "194c15cd4f4f67cf70d3f3a6ccb5eacc767bdfc43fd88f1d534f102f4568ca1e",

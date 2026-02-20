@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2025-12-07T18:30:18.314Z",
+  "generatedAt": "2026-02-20T18:48:24.099Z",
   "specPath": "specs/openapi/request-network-openapi.json",
   "entries": [
     {
@@ -53,6 +53,22 @@
         "status": 200
       },
       "pointer": "/paths/~1v2~1client-ids~1{id}/put/responses/200/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "PayeeDestinationController_createPayeeDestination_v2",
+        "kind": "request",
+        "variant": "application/json"
+      },
+      "pointer": "/paths/~1v2~1payee-destination/post/requestBody/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "PayeeDestinationController_deactivatePayeeDestination_v2",
+        "kind": "request",
+        "variant": "application/json"
+      },
+      "pointer": "/paths/~1v2~1payee-destination~1{destinationId}/delete/requestBody/content/application~1json/schema"
     },
     {
       "key": {
@@ -533,6 +549,14 @@
         "variant": "application/json"
       },
       "pointer": "/paths/~1v2~1request~1payment-intents~1{paymentIntentId}/post/requestBody/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "RequestControllerV2_updateRequest_v2",
+        "kind": "request",
+        "variant": "application/json"
+      },
+      "pointer": "/paths/~1v2~1request~1{requestId}/patch/requestBody/content/application~1json/schema"
     }
   ]
 }

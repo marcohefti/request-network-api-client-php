@@ -319,7 +319,7 @@ final class Operations
                     'V2/Request'
                 ],
                 'summary' => 'Update a recurring request',
-                'hasJsonRequest' => false,
+                'hasJsonRequest' => true,
                 'successStatuses' => [
                     200
                 ],
@@ -686,6 +686,83 @@ final class Operations
                 'errorStatuses' => [
                     400,
                     404,
+                    429
+                ]
+            ],
+            'PayeeDestinationController_getSigningData_v2' => [
+                'method' => 'GET',
+                'path' => '/v2/payee-destination/signing-data',
+                'tags' => [
+                    'V2/Payee Destination'
+                ],
+                'summary' => 'Get EIP-712 signing data with nonce',
+                'hasJsonRequest' => false,
+                'successStatuses' => [
+                    200
+                ],
+                'errorStatuses' => [
+                    429
+                ]
+            ],
+            'PayeeDestinationController_getActivePayeeDestination_v2' => [
+                'method' => 'GET',
+                'path' => '/v2/payee-destination',
+                'tags' => [
+                    'V2/Payee Destination'
+                ],
+                'summary' => 'Get active payee destination for wallet',
+                'hasJsonRequest' => false,
+                'successStatuses' => [
+                    200
+                ],
+                'errorStatuses' => [
+                    429
+                ]
+            ],
+            'PayeeDestinationController_createPayeeDestination_v2' => [
+                'method' => 'POST',
+                'path' => '/v2/payee-destination',
+                'tags' => [
+                    'V2/Payee Destination'
+                ],
+                'summary' => 'Create payee destination',
+                'hasJsonRequest' => true,
+                'successStatuses' => [
+                    201
+                ],
+                'errorStatuses' => [
+                    429
+                ]
+            ],
+            'PayeeDestinationController_getPayeeDestination_v2' => [
+                'method' => 'GET',
+                'path' => '/v2/payee-destination/{destinationId}',
+                'tags' => [
+                    'V2/Payee Destination'
+                ],
+                'summary' => 'Get payee destination by ID',
+                'hasJsonRequest' => false,
+                'successStatuses' => [
+                    200
+                ],
+                'errorStatuses' => [
+                    404,
+                    429
+                ]
+            ],
+            'PayeeDestinationController_deactivatePayeeDestination_v2' => [
+                'method' => 'DELETE',
+                'path' => '/v2/payee-destination/{destinationId}',
+                'tags' => [
+                    'V2/Payee Destination'
+                ],
+                'summary' => 'Deactivate payee destination',
+                'hasJsonRequest' => true,
+                'successStatuses' => [
+                    200
+                ],
+                'errorStatuses' => [
+                    400,
                     429
                 ]
             ]

@@ -41,6 +41,11 @@ final class Operations
     public const PAYOUT_V2_PAY_REQUEST = 'PayoutV2Controller_payRequest_v2';
     public const PAYOUT_V2_SUBMIT_RECURRING_SIGNATURE = 'PayoutV2Controller_submitRecurringPaymentSignature_v2';
     public const PAYOUT_V2_UPDATE_RECURRING = 'PayoutV2Controller_updateRecurringPayment_v2';
+    public const PAYEE_DESTINATION_V2_CREATE = 'PayeeDestinationController_createPayeeDestination_v2';
+    public const PAYEE_DESTINATION_V2_DEACTIVATE = 'PayeeDestinationController_deactivatePayeeDestination_v2';
+    public const PAYEE_DESTINATION_V2_GET_ACTIVE = 'PayeeDestinationController_getActivePayeeDestination_v2';
+    public const PAYEE_DESTINATION_V2_GET_BY_ID = 'PayeeDestinationController_getPayeeDestination_v2';
+    public const PAYEE_DESTINATION_V2_GET_SIGNING_DATA = 'PayeeDestinationController_getSigningData_v2';
     public const REQUEST_V1_CREATE = 'RequestControllerV1_createRequest_v1';
     public const REQUEST_V1_GET_PAYMENT_CALLDATA = 'RequestControllerV1_getPaymentCalldata_v1';
     public const REQUEST_V1_GET_PAYMENT_ROUTES = 'RequestControllerV1_getRequestPaymentRoutes_v1';
@@ -86,6 +91,11 @@ final class Operations
             self::PAYOUT_V2_PAY_REQUEST,
             self::PAYOUT_V2_SUBMIT_RECURRING_SIGNATURE,
             self::PAYOUT_V2_UPDATE_RECURRING,
+            self::PAYEE_DESTINATION_V2_CREATE,
+            self::PAYEE_DESTINATION_V2_DEACTIVATE,
+            self::PAYEE_DESTINATION_V2_GET_ACTIVE,
+            self::PAYEE_DESTINATION_V2_GET_BY_ID,
+            self::PAYEE_DESTINATION_V2_GET_SIGNING_DATA,
             self::REQUEST_V1_CREATE,
             self::REQUEST_V1_GET_PAYMENT_CALLDATA,
             self::REQUEST_V1_GET_PAYMENT_ROUTES,

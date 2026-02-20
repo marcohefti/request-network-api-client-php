@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.4] - 2026-02-20
+
+### Added
+- Added `PayeeDestinationApi` domain support for:
+  - `GET /v2/payee-destination/signing-data`
+  - `GET /v2/payee-destination`
+  - `POST /v2/payee-destination`
+  - `GET /v2/payee-destination/{destinationId}`
+  - `DELETE /v2/payee-destination/{destinationId}`
+
+### Changed
+- Synced bundled Request API OpenAPI spec from latest contracts package.
+- Updated operation parity registry for full API coverage checks.
+
+### Documentation
+- Updated `README.md` domain coverage list to include payee-destination endpoints.
+
 ## [0.5.2] - 2024-12-12
 
 ### Added
