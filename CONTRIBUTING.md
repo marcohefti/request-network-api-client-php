@@ -150,7 +150,7 @@ final class ExampleClass
 - Write tests for all new features
 - Maintain or improve code coverage (target: >= 80%)
 - Use the `FakeHttpAdapter` for testing API interactions
-- Name test methods descriptively: `test_it_creates_request_with_valid_data()`
+- Name test methods descriptively: `test_it_creates_camelpay_with_valid_data()`
 
 ### Example Test:
 
