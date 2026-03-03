@@ -12,6 +12,7 @@ use RequestSuite\RequestPhpClient\Core\Http\JsonRequestHelper;
 final class RequestsApi extends JsonApi
 {
     private const OP_CREATE = 'RequestControllerV2_createRequest_v2';
+    private const OP_LIST = 'RequestControllerV2_listRequests_v2';
     private const OP_PAYMENT_ROUTES = 'RequestControllerV2_getRequestPaymentRoutes_v2';
     private const OP_PAYMENT_CALLDATA = 'RequestControllerV2_getPaymentCalldata_v2';
     private const OP_UPDATE = 'RequestControllerV2_updateRequest_v2';
@@ -46,6 +47,42 @@ final class RequestsApi extends JsonApi
             'path' => '/v2/request',
             'body' => $body,
             'description' => 'Create request',
+        ];
+
+        return $this->json->requestJson($this->http, $this->applyOptions($request, $options));
+    }
+
+    /**
+     * @param array{walletAddress: string, limit?: int, offset?: int} $query
+     * @param array<string, mixed> $options
+     * @return array<string, mixed>
+     */
+    public function list(array $query, array $options = []): array
+    {
+        if (
+            ! isset($query['walletAddress'])
+            || ! is_string($query['walletAddress'])
+            || trim($query['walletAddress']) === ''
+        ) {
+            throw new InvalidArgumentException('walletAddress is required in query.');
+        }
+
+        $requestQuery = $this->queryBuilder->build([
+            'walletAddress' => $query['walletAddress'],
+            'limit' => $query['limit'] ?? null,
+            'offset' => $query['offset'] ?? null,
+        ]);
+
+        /** @var array{operationId: string, method: string, path: string, query: array<string, array<int, bool|float|int|string>|bool|float|int|string>, description: string, meta?: array<string, mixed>, timeoutMs?: int} $request */
+        $request = [
+            'operationId' => self::OP_LIST,
+            'method' => 'GET',
+            'path' => '/v2/request',
+            'query' => $requestQuery ?? [],
+            'description' => 'List requests',
+            'meta' => [
+                'responseSchemaKey' => $this->schema()->response(self::OP_LIST, 200),
+            ],
         ];
 
         return $this->json->requestJson($this->http, $this->applyOptions($request, $options));

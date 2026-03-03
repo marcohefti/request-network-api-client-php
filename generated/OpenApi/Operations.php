@@ -276,6 +276,23 @@ final class Operations
                     429
                 ]
             ],
+            'RequestControllerV2_listRequests_v2' => [
+                'method' => 'GET',
+                'path' => '/v2/request',
+                'tags' => [
+                    'Request',
+                    'V2/Request'
+                ],
+                'summary' => 'List requests',
+                'hasJsonRequest' => false,
+                'successStatuses' => [
+                    200
+                ],
+                'errorStatuses' => [
+                    400,
+                    429
+                ]
+            ],
             'RequestControllerV2_createRequest_v2' => [
                 'method' => 'POST',
                 'path' => '/v2/request',
@@ -290,7 +307,7 @@ final class Operations
                 ],
                 'errorStatuses' => [
                     400,
-                    404,
+                    403,
                     429
                 ]
             ],
@@ -689,58 +706,13 @@ final class Operations
                     429
                 ]
             ],
-            'PayeeDestinationController_getSigningData_v2' => [
+            'SecurePaymentController_findSecurePayment_v2' => [
                 'method' => 'GET',
-                'path' => '/v2/payee-destination/signing-data',
+                'path' => '/v2/secure-payments',
                 'tags' => [
-                    'V2/Payee Destination'
+                    'V2/Secure Payment'
                 ],
-                'summary' => 'Get EIP-712 signing data with nonce',
-                'hasJsonRequest' => false,
-                'successStatuses' => [
-                    200
-                ],
-                'errorStatuses' => [
-                    429
-                ]
-            ],
-            'PayeeDestinationController_getActivePayeeDestination_v2' => [
-                'method' => 'GET',
-                'path' => '/v2/payee-destination',
-                'tags' => [
-                    'V2/Payee Destination'
-                ],
-                'summary' => 'Get active payee destination for wallet',
-                'hasJsonRequest' => false,
-                'successStatuses' => [
-                    200
-                ],
-                'errorStatuses' => [
-                    429
-                ]
-            ],
-            'PayeeDestinationController_createPayeeDestination_v2' => [
-                'method' => 'POST',
-                'path' => '/v2/payee-destination',
-                'tags' => [
-                    'V2/Payee Destination'
-                ],
-                'summary' => 'Create payee destination',
-                'hasJsonRequest' => true,
-                'successStatuses' => [
-                    201
-                ],
-                'errorStatuses' => [
-                    429
-                ]
-            ],
-            'PayeeDestinationController_getPayeeDestination_v2' => [
-                'method' => 'GET',
-                'path' => '/v2/payee-destination/{destinationId}',
-                'tags' => [
-                    'V2/Payee Destination'
-                ],
-                'summary' => 'Get payee destination by ID',
+                'summary' => 'Find secure payment by request ID',
                 'hasJsonRequest' => false,
                 'successStatuses' => [
                     200
@@ -750,19 +722,36 @@ final class Operations
                     429
                 ]
             ],
-            'PayeeDestinationController_deactivatePayeeDestination_v2' => [
-                'method' => 'DELETE',
-                'path' => '/v2/payee-destination/{destinationId}',
+            'SecurePaymentController_createSecurePayment_v2' => [
+                'method' => 'POST',
+                'path' => '/v2/secure-payments',
                 'tags' => [
-                    'V2/Payee Destination'
+                    'V2/Secure Payment'
                 ],
-                'summary' => 'Deactivate payee destination',
+                'summary' => 'Create a secure payment entry',
                 'hasJsonRequest' => true,
+                'successStatuses' => [
+                    201
+                ],
+                'errorStatuses' => [
+                    429
+                ]
+            ],
+            'SecurePaymentController_getSecurePaymentByToken_v2' => [
+                'method' => 'GET',
+                'path' => '/v2/secure-payments/{token}',
+                'tags' => [
+                    'V2/Secure Payment'
+                ],
+                'summary' => 'Get secure payment data by token',
+                'hasJsonRequest' => false,
                 'successStatuses' => [
                     200
                 ],
                 'errorStatuses' => [
-                    400,
+                    403,
+                    404,
+                    409,
                     429
                 ]
             ]

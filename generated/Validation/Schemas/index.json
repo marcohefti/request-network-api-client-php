@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-20T18:48:24.099Z",
+  "generatedAt": "2026-03-03T11:21:34.027Z",
   "specPath": "specs/openapi/request-network-openapi.json",
   "entries": [
     {
@@ -53,22 +53,6 @@
         "status": 200
       },
       "pointer": "/paths/~1v2~1client-ids~1{id}/put/responses/200/content/application~1json/schema"
-    },
-    {
-      "key": {
-        "operationId": "PayeeDestinationController_createPayeeDestination_v2",
-        "kind": "request",
-        "variant": "application/json"
-      },
-      "pointer": "/paths/~1v2~1payee-destination/post/requestBody/content/application~1json/schema"
-    },
-    {
-      "key": {
-        "operationId": "PayeeDestinationController_deactivatePayeeDestination_v2",
-        "kind": "request",
-        "variant": "application/json"
-      },
-      "pointer": "/paths/~1v2~1payee-destination~1{destinationId}/delete/requestBody/content/application~1json/schema"
     },
     {
       "key": {
@@ -544,6 +528,15 @@
     },
     {
       "key": {
+        "operationId": "RequestControllerV2_listRequests_v2",
+        "kind": "response",
+        "variant": "application/json",
+        "status": 200
+      },
+      "pointer": "/paths/~1v2~1request/get/responses/200/content/application~1json/schema"
+    },
+    {
+      "key": {
         "operationId": "RequestControllerV2_sendPaymentIntent_v2",
         "kind": "request",
         "variant": "application/json"
@@ -557,6 +550,41 @@
         "variant": "application/json"
       },
       "pointer": "/paths/~1v2~1request~1{requestId}/patch/requestBody/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "SecurePaymentController_createSecurePayment_v2",
+        "kind": "request",
+        "variant": "application/json"
+      },
+      "pointer": "/paths/~1v2~1secure-payments/post/requestBody/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "SecurePaymentController_createSecurePayment_v2",
+        "kind": "response",
+        "variant": "application/json",
+        "status": 201
+      },
+      "pointer": "/paths/~1v2~1secure-payments/post/responses/201/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "SecurePaymentController_findSecurePayment_v2",
+        "kind": "response",
+        "variant": "application/json",
+        "status": 200
+      },
+      "pointer": "/paths/~1v2~1secure-payments/get/responses/200/content/application~1json/schema"
+    },
+    {
+      "key": {
+        "operationId": "SecurePaymentController_getSecurePaymentByToken_v2",
+        "kind": "response",
+        "variant": "application/json",
+        "status": 200
+      },
+      "pointer": "/paths/~1v2~1secure-payments~1{token}/get/responses/200/content/application~1json/schema"
     }
   ]
 }

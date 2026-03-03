@@ -70,8 +70,8 @@ Instead of manually building HTTP requests and handling errors, this client prov
 
 ## What this client covers
 
-- PHP‑first `RequestClient` with facades for requests, payouts, payments, payer/compliance (v1+v2),
-  payee destination, client IDs, currencies (v1+v2), and legacy pay.
+- PHP-first `RequestClient` with facades for requests (including request listing), payouts, payments,
+  secure payments, payer/compliance (v1+v2), client IDs, currencies (v1+v2), and legacy pay.
 - Shared HTTP pipeline with retry, logging, and runtime validation driven by the synced OpenAPI spec.
 - Webhook utilities: signature verifier, typed event objects, parser, dispatcher, PSR‑15 middleware, and
   testing helpers that mirror the TypeScript webhook module.

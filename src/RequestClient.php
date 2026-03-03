@@ -12,7 +12,6 @@ use RequestSuite\RequestPhpClient\Domains\Currencies\V1\CurrenciesV1Api;
 use RequestSuite\RequestPhpClient\Domains\Currencies\V2\CurrenciesV2Api;
 use RequestSuite\RequestPhpClient\Domains\Pay\PayApi;
 use RequestSuite\RequestPhpClient\Domains\Pay\V1\PayV1Api;
-use RequestSuite\RequestPhpClient\Domains\PayeeDestination\PayeeDestinationApi;
 use RequestSuite\RequestPhpClient\Domains\Payer\PayerApi;
 use RequestSuite\RequestPhpClient\Domains\Payer\V1\PayerV1Api;
 use RequestSuite\RequestPhpClient\Domains\Payer\V2\PayerV2Api;
@@ -20,13 +19,14 @@ use RequestSuite\RequestPhpClient\Domains\Payments\PaymentsApi;
 use RequestSuite\RequestPhpClient\Domains\Payouts\PayoutsApi;
 use RequestSuite\RequestPhpClient\Domains\Requests\RequestsApi;
 use RequestSuite\RequestPhpClient\Domains\Requests\V1\RequestsV1Api;
+use RequestSuite\RequestPhpClient\Domains\SecurePayments\SecurePaymentsApi;
 
 /**
  * Entry point for interacting with the Request Network REST API.
  *
  * Mirrors the TypeScript `createRequestClient` by bundling shared configuration,
  * the low-level HttpClient accessor, and lazily-instantiated domain facades
- * (requests, payouts, payments, payer compliance, payee destinations, pay, client IDs, currencies).
+ * (requests, payouts, payments, secure payments, payer compliance, pay, client IDs, currencies).
  */
 final class RequestClient
 {
@@ -43,7 +43,7 @@ final class RequestClient
     private ?CurrenciesApi $currenciesApi = null;
     private ?PayerV1Api $payerV1Api = null;
     private ?PayerApi $payerApi = null;
-    private ?PayeeDestinationApi $payeeDestinationApi = null;
+    private ?SecurePaymentsApi $securePaymentsApi = null;
     private ?PayV1Api $payV1Api = null;
     private ?PayApi $payApi = null;
 
@@ -142,9 +142,9 @@ final class RequestClient
         return $this->payerV1Api ??= new PayerV1Api($this->http);
     }
 
-    public function payeeDestination(): PayeeDestinationApi
+    public function securePayments(): SecurePaymentsApi
     {
-        return $this->payeeDestinationApi ??= new PayeeDestinationApi($this->http);
+        return $this->securePaymentsApi ??= new SecurePaymentsApi($this->http);
     }
 
     public function pay(): PayApi

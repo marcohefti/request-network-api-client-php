@@ -43,6 +43,25 @@ final class RequestsApiTest extends TestCase
         self::assertSame('100', $query['amount'] ?? null);
     }
 
+    public function testListBuildsQueryAndUsesListEndpoint(): void
+    {
+        $responseBody = json_encode(['requests' => [], 'pagination' => ['limit' => 20, 'offset' => 0]], JSON_THROW_ON_ERROR);
+        $api = $this->apiWithResponses([new Response(200, ['content-type' => 'application/json'], $responseBody)], $adapter);
+
+        $result = $api->list(['walletAddress' => '0xabc', 'limit' => 20, 'offset' => 0]);
+
+        self::assertIsArray($result['requests'] ?? null);
+
+        $lastRequest = $adapter->lastRequest;
+        $path = parse_url($lastRequest?->url() ?? '', PHP_URL_PATH);
+        parse_str(parse_url($lastRequest?->url() ?? '', PHP_URL_QUERY) ?? '', $query);
+
+        self::assertSame('/v2/request', $path);
+        self::assertSame('0xabc', $query['walletAddress'] ?? null);
+        self::assertSame('20', $query['limit'] ?? null);
+        self::assertSame('0', $query['offset'] ?? null);
+    }
+
     public function testGetPaymentCalldataReturnsKind(): void
     {
         $responseBody = json_encode(['transactions' => []], JSON_THROW_ON_ERROR);

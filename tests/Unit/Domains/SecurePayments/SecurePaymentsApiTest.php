@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace RequestSuite\RequestPhpClient\Tests\Unit\Domains\PayeeDestination;
+namespace RequestSuite\RequestPhpClient\Tests\Unit\Domains\SecurePayments;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use RequestSuite\RequestPhpClient\Core\Config\RequestClientConfig;
 use RequestSuite\RequestPhpClient\Core\Http\HttpAdapter;
@@ -11,33 +12,29 @@ use RequestSuite\RequestPhpClient\Core\Http\HttpClient;
 use RequestSuite\RequestPhpClient\Core\Http\PendingRequest;
 use RequestSuite\RequestPhpClient\Core\Http\Response;
 use RequestSuite\RequestPhpClient\Core\Retry\StandardRetryPolicy;
-use RequestSuite\RequestPhpClient\Domains\PayeeDestination\PayeeDestinationApi;
+use RequestSuite\RequestPhpClient\Domains\SecurePayments\SecurePaymentsApi;
 use RequestSuite\RequestPhpClient\Validation\SchemaKey;
 
-final class PayeeDestinationApiTest extends TestCase
+final class SecurePaymentsApiTest extends TestCase
 {
-    public function testGetSigningData(): void
+    public function testFindByRequestId(): void
     {
         $api = $this->apiWithResponses([new Response(200, ['content-type' => 'application/json'], json_encode([
-            'nonce' => 'nonce-1',
+            'token' => 'sp_123',
         ], JSON_THROW_ON_ERROR))], $adapter);
 
-        $result = $api->getSigningData([
-            'walletAddress' => '0xabc',
-            'action' => 'add',
-            'tokenAddress' => '0xdef',
-            'chainId' => '8453',
-        ]);
+        $result = $api->findByRequestId('req_123', 'Bearer token-123');
 
-        self::assertSame('nonce-1', $result['nonce'] ?? null);
+        self::assertSame('sp_123', $result['token'] ?? null);
 
         $request = $adapter->lastRequest;
         $path = parse_url($request?->url() ?? '', PHP_URL_PATH);
         parse_str(parse_url($request?->url() ?? '', PHP_URL_QUERY) ?? '', $query);
+        $headers = $request?->headers() ?? [];
 
-        self::assertSame('/v2/payee-destination/signing-data', $path);
-        self::assertSame('0xabc', $query['walletAddress'] ?? null);
-        self::assertSame('add', $query['action'] ?? null);
+        self::assertSame('/v2/secure-payments', $path);
+        self::assertSame('req_123', $query['requestId'] ?? null);
+        self::assertSame('Bearer token-123', $headers['Authorization'] ?? null);
     }
 
     public function testCreateAddsSchemaMetadata(): void
@@ -45,49 +42,45 @@ final class PayeeDestinationApiTest extends TestCase
         $api = $this->apiWithResponses([new Response(201, ['content-type' => 'application/json'], '{}')], $adapter);
 
         $api->create([
-            'signature' => '0xsignature',
-            'nonce' => 'nonce-1',
+            'requests' => [
+                ['destinationId' => 'destination', 'amount' => '10'],
+            ],
         ]);
 
         $meta = $adapter->lastRequest?->meta() ?? [];
         self::assertInstanceOf(SchemaKey::class, $meta['requestSchemaKey'] ?? null);
         self::assertInstanceOf(SchemaKey::class, $meta['responseSchemaKey'] ?? null);
-        self::assertSame('PayeeDestinationController_createPayeeDestination_v2', $meta['requestSchemaKey']->operationId());
+        self::assertSame('SecurePaymentController_createSecurePayment_v2', $meta['requestSchemaKey']->operationId());
         self::assertSame(201, $meta['responseSchemaKey']->status());
     }
 
-    public function testGetByIdUsesEncodedPath(): void
+    public function testGetByTokenUsesEncodedPathAndQuery(): void
     {
         $api = $this->apiWithResponses([new Response(200, ['content-type' => 'application/json'], '{}')], $adapter);
 
-        $api->getById('base:0xabc:0xdef');
+        $api->getByToken('sp:token', ['wallet' => '0xabc']);
 
         $request = $adapter->lastRequest;
         $path = parse_url($request?->url() ?? '', PHP_URL_PATH);
-        self::assertSame('/v2/payee-destination/base%3A0xabc%3A0xdef', $path);
+        parse_str(parse_url($request?->url() ?? '', PHP_URL_QUERY) ?? '', $query);
+
+        self::assertSame('/v2/secure-payments/sp%3Atoken', $path);
+        self::assertSame('0xabc', $query['wallet'] ?? null);
     }
 
-    public function testDeactivateUsesDeleteAndSchemaMetadata(): void
+    public function testFindByRequestIdRejectsEmptyAuthorization(): void
     {
-        $api = $this->apiWithResponses([new Response(200, ['content-type' => 'application/json'], '{}')], $adapter);
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('authorization must not be empty.');
 
-        $api->deactivate('base:0xabc:0xdef', [
-            'signature' => '0xsignature',
-            'nonce' => 'nonce-2',
-        ]);
-
-        $request = $adapter->lastRequest;
-        self::assertSame('DELETE', $request?->method());
-        $meta = $request?->meta() ?? [];
-        self::assertInstanceOf(SchemaKey::class, $meta['requestSchemaKey'] ?? null);
-        self::assertInstanceOf(SchemaKey::class, $meta['responseSchemaKey'] ?? null);
-        self::assertSame(200, $meta['responseSchemaKey']->status());
+        $api = $this->apiWithResponses([], $adapter);
+        $api->findByRequestId('req_123', '');
     }
 
     /**
      * @param array<int, Response> $responses
      */
-    private function apiWithResponses(array $responses, ?RecordingAdapter &$adapter): PayeeDestinationApi
+    private function apiWithResponses(array $responses, ?RecordingAdapter &$adapter): SecurePaymentsApi
     {
         $adapter = new RecordingAdapter($responses);
         $http = new HttpClient(
@@ -96,7 +89,7 @@ final class PayeeDestinationApiTest extends TestCase
             StandardRetryPolicy::default()
         );
 
-        return new PayeeDestinationApi($http);
+        return new SecurePaymentsApi($http);
     }
 }
 

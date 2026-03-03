@@ -5,6 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.0] - 2026-03-03
+
+### Added
+- Added request listing support in `RequestsApi`:
+  - `GET /v2/request` via `RequestsApi::list()`
+- Added `SecurePaymentsApi` domain support for:
+  - `GET /v2/secure-payments` via `SecurePaymentsApi::findByRequestId()`
+  - `POST /v2/secure-payments` via `SecurePaymentsApi::create()`
+  - `GET /v2/secure-payments/{token}` via `SecurePaymentsApi::getByToken()`
+
+### Changed
+- Synced bundled OpenAPI/contracts assets to `@marcohefti/request-network-api-contracts@0.6.0`.
+- Regenerated OpenAPI operation + schema manifest artifacts from the synced contracts.
+
+### Removed
+- Removed obsolete `PayeeDestinationApi` domain and related tests because `v0.6.0` contracts no longer include payee-destination endpoints.
+
+### Documentation
+- Updated README API coverage summary to include secure payments and request listing.
+
 ## [0.5.4] - 2026-02-20
 
 ### Added
@@ -105,6 +125,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Version History
 
+- **0.6.x** - Contracts v0.6 alignment (secure payments + request listing, payee-destination removed)
 - **0.5.x** - Initial public release with full feature parity to TypeScript client
 - **0.x** - Pre-release versions, may contain breaking changes between minor versions
 - **1.0.0** - Planned stable release following strict SemVer

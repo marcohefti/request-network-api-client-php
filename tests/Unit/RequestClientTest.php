@@ -12,13 +12,13 @@ use RequestSuite\RequestPhpClient\Domains\Currencies\CurrenciesApi;
 use RequestSuite\RequestPhpClient\Domains\Currencies\V1\CurrenciesV1Api;
 use RequestSuite\RequestPhpClient\Domains\Pay\PayApi;
 use RequestSuite\RequestPhpClient\Domains\Pay\V1\PayV1Api;
-use RequestSuite\RequestPhpClient\Domains\PayeeDestination\PayeeDestinationApi;
 use RequestSuite\RequestPhpClient\Domains\Payer\PayerApi;
 use RequestSuite\RequestPhpClient\Domains\Payer\V1\PayerV1Api;
 use RequestSuite\RequestPhpClient\Domains\Payouts\PayoutsApi;
 use RequestSuite\RequestPhpClient\Domains\Payments\PaymentsApi;
 use RequestSuite\RequestPhpClient\Domains\Requests\RequestsApi;
 use RequestSuite\RequestPhpClient\Domains\Requests\V1\RequestsV1Api;
+use RequestSuite\RequestPhpClient\Domains\SecurePayments\SecurePaymentsApi;
 use RequestSuite\RequestPhpClient\RequestClient;
 
 final class RequestClientTest extends TestCase
@@ -60,7 +60,7 @@ final class RequestClientTest extends TestCase
         self::assertInstanceOf(ClientIdsApi::class, $client->clientIds());
         self::assertInstanceOf(PayerApi::class, $client->payer());
         self::assertInstanceOf(PayerV1Api::class, $client->payerV1());
-        self::assertInstanceOf(PayeeDestinationApi::class, $client->payeeDestination());
+        self::assertInstanceOf(SecurePaymentsApi::class, $client->securePayments());
         self::assertInstanceOf(PayApi::class, $client->pay());
         self::assertInstanceOf(PayV1Api::class, $client->payV1());
 
@@ -73,7 +73,7 @@ final class RequestClientTest extends TestCase
         self::assertSame($client->clientIds(), $client->clientIds());
         self::assertSame($client->payer(), $client->payer());
         self::assertSame($client->payerV1(), $client->payerV1());
-        self::assertSame($client->payeeDestination(), $client->payeeDestination());
+        self::assertSame($client->securePayments(), $client->securePayments());
         self::assertSame($client->pay(), $client->pay());
         self::assertSame($client->payV1(), $client->payV1());
 

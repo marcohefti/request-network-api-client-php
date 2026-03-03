@@ -41,11 +41,6 @@ final class Operations
     public const PAYOUT_V2_PAY_REQUEST = 'PayoutV2Controller_payRequest_v2';
     public const PAYOUT_V2_SUBMIT_RECURRING_SIGNATURE = 'PayoutV2Controller_submitRecurringPaymentSignature_v2';
     public const PAYOUT_V2_UPDATE_RECURRING = 'PayoutV2Controller_updateRecurringPayment_v2';
-    public const PAYEE_DESTINATION_V2_CREATE = 'PayeeDestinationController_createPayeeDestination_v2';
-    public const PAYEE_DESTINATION_V2_DEACTIVATE = 'PayeeDestinationController_deactivatePayeeDestination_v2';
-    public const PAYEE_DESTINATION_V2_GET_ACTIVE = 'PayeeDestinationController_getActivePayeeDestination_v2';
-    public const PAYEE_DESTINATION_V2_GET_BY_ID = 'PayeeDestinationController_getPayeeDestination_v2';
-    public const PAYEE_DESTINATION_V2_GET_SIGNING_DATA = 'PayeeDestinationController_getSigningData_v2';
     public const REQUEST_V1_CREATE = 'RequestControllerV1_createRequest_v1';
     public const REQUEST_V1_GET_PAYMENT_CALLDATA = 'RequestControllerV1_getPaymentCalldata_v1';
     public const REQUEST_V1_GET_PAYMENT_ROUTES = 'RequestControllerV1_getRequestPaymentRoutes_v1';
@@ -55,9 +50,13 @@ final class Operations
     public const REQUEST_V2_CREATE = 'RequestControllerV2_createRequest_v2';
     public const REQUEST_V2_GET_PAYMENT_CALLDATA = 'RequestControllerV2_getPaymentCalldata_v2';
     public const REQUEST_V2_GET_PAYMENT_ROUTES = 'RequestControllerV2_getRequestPaymentRoutes_v2';
+    public const REQUEST_V2_LIST = 'RequestControllerV2_listRequests_v2';
     public const REQUEST_V2_GET_STATUS = 'RequestControllerV2_getRequestStatus_v2';
     public const REQUEST_V2_SEND_PAYMENT_INTENT = 'RequestControllerV2_sendPaymentIntent_v2';
     public const REQUEST_V2_UPDATE = 'RequestControllerV2_updateRequest_v2';
+    public const SECURE_PAYMENT_V2_CREATE = 'SecurePaymentController_createSecurePayment_v2';
+    public const SECURE_PAYMENT_V2_FIND = 'SecurePaymentController_findSecurePayment_v2';
+    public const SECURE_PAYMENT_V2_GET_BY_TOKEN = 'SecurePaymentController_getSecurePaymentByToken_v2';
 
     /**
      * @return list<string>
@@ -91,11 +90,6 @@ final class Operations
             self::PAYOUT_V2_PAY_REQUEST,
             self::PAYOUT_V2_SUBMIT_RECURRING_SIGNATURE,
             self::PAYOUT_V2_UPDATE_RECURRING,
-            self::PAYEE_DESTINATION_V2_CREATE,
-            self::PAYEE_DESTINATION_V2_DEACTIVATE,
-            self::PAYEE_DESTINATION_V2_GET_ACTIVE,
-            self::PAYEE_DESTINATION_V2_GET_BY_ID,
-            self::PAYEE_DESTINATION_V2_GET_SIGNING_DATA,
             self::REQUEST_V1_CREATE,
             self::REQUEST_V1_GET_PAYMENT_CALLDATA,
             self::REQUEST_V1_GET_PAYMENT_ROUTES,
@@ -105,9 +99,13 @@ final class Operations
             self::REQUEST_V2_CREATE,
             self::REQUEST_V2_GET_PAYMENT_CALLDATA,
             self::REQUEST_V2_GET_PAYMENT_ROUTES,
+            self::REQUEST_V2_LIST,
             self::REQUEST_V2_GET_STATUS,
             self::REQUEST_V2_SEND_PAYMENT_INTENT,
             self::REQUEST_V2_UPDATE,
+            self::SECURE_PAYMENT_V2_CREATE,
+            self::SECURE_PAYMENT_V2_FIND,
+            self::SECURE_PAYMENT_V2_GET_BY_TOKEN,
         ];
     }
 }
