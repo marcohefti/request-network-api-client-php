@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.1] - 2026-03-10
+
+### Changed
+- Synced bundled contracts assets to `@marcohefti/request-network-api-contracts@0.6.1`.
+- Refreshed synced OpenAPI metadata and regenerated PHP schema/operation manifests. The underlying patched contract body stayed unchanged, and the upstream fee-schema drift patch remains required in the contracts package.
+
 ## [0.6.0] - 2026-03-03
 
 ### Added
