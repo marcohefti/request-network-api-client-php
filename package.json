@@ -16,6 +16,6 @@
   "license": "MIT",
   "type": "commonjs",
   "devDependencies": {
-    "@marcohefti/request-network-api-contracts": "^0.6.1"
+    "@marcohefti/request-network-api-contracts": "^0.6.2"
   }
 }
